@@ -8,7 +8,6 @@
 
 ![ImagenCO2](https://youmatter.world/app/uploads/sites/2/2019/05/greenhouse-co2-climate.jpg)
 
-Drive con los archivos: https://drive.google.com/drive/folders/1nAoLHcmrtoDcDtgUT3UDzFPZZxKh8_1s?usp=sharing
 
 ## Contexto:
 
