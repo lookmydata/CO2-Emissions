@@ -2,6 +2,8 @@ import pandas as pd
 import streamlit as st
 import plotly.express as px
 
+from utils import kill_top_margin
+
 
 def gantt():
     color_sequence = ['#0d523a', '#159669', '#3ac998', '#63bfa0', '#333333']
@@ -14,7 +16,7 @@ def gantt():
         dict(Tarea="Modelos ML", Start='2022-09-02', Finish='2022-09-06', Stage="3"),
         dict(Tarea="Dashboard Streamlit", Start='2022-09-06', Finish='2022-09-08', Stage="4"),
         dict(Tarea="Reporte y conclusiones", Start='2022-09-06', Finish='2022-09-08', Stage="4"),
-        ])
+    ])
 
     fig = px.timeline(
             dg, 
@@ -24,12 +26,24 @@ def gantt():
             color="Stage", 
             color_discrete_sequence=color_sequence[::-1]
             )
+    fig.update_layout(
+        width=1200,
+        margin=dict(l=0, r=0, t=0, b=0)
+    )
     fig.update_yaxes(autorange="reversed")
     return fig
 
 
-page = st.empty()
+st.set_page_config(
+    layout="wide",
+    page_title="Gantt"
+)
 
-with page.container():
-    st.header("Diagrama de gantt - Planeacion del proyecto")
-    st.plotly_chart(gantt())
+kill_top_margin()
+
+st.markdown(
+    "<h1 style='text-align: center; color: #0d523a;'>Diagrama de gantt - Planeacion del proyecto</h1><br>", 
+    unsafe_allow_html=True
+)
+st.plotly_chart(gantt())
+
