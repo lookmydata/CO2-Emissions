@@ -24,12 +24,15 @@ Permitirá conocer la forma en la que varía la emisión de CO2  con respecto a 
 El impacto ambiental afecta directa e indirectamente a las personas y una posible medida de ello es la prevalencia de enfermedades relacionadas a la calidad del aire.
 
 ### KPI’s y métricas
-En base a los análisis a realizar, proponemos los siguientes indicadores:
-- Ranking de países según participación de energías limpias en la matriz energética
+
+- Productores de energías limpias 
+- Calidad del aire 
+- Evolución histórica de generación de energía y emisión de CO2  en top 10 países emisores de CO2 
+- Evolución del índice de calidad de aire (AQI) en relación al nivel de emisión de CO2  en los 10 países de mayor emisión
+- m3 CO2 / GWh generado
 - Ranking países según m3 CO2/ 1M USDPBI
-- Evolución histórica de generación de energía y emisión de CO2  en top 10 países emisores de CO2
 - Casos de cáncer de pulmón por m3 de CO2  en países top 10 según emisiones
-- Emisión CO2 por fuente de energía
+- Frecuencia de desastres naturales / m3 CO2
 
 ## Metodología y Stack Tecnológico
 
