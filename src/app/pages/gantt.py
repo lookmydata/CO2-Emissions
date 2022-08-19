@@ -43,7 +43,7 @@ st.set_page_config(
 kill_top_margin()
 
 st.markdown(
-    "<br/><br/><h1 style='text-align: center; color: #0d523a;'>Diagrama de gantt - Planeacion del proyecto</h1><br/>", 
+    "<br/><br/><h1 style='text-align: center; color: #0d523a;'>Diagrama de gantt - Planificacion del proyecto</h1><br/>", 
     unsafe_allow_html=True
 )
 
