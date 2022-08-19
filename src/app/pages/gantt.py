@@ -25,12 +25,13 @@ def gantt():
             y="Tarea",
             color="Stage", 
             color_discrete_sequence=color_sequence[::-1]
-            )
+    )
+
     fig.update_layout(
-        width=1200,
         margin=dict(l=0, r=0, t=0, b=0)
     )
-    fig.update_yaxes(autorange="reversed")
+
+    fig.update_yaxes(title='', autorange="reversed")
     return fig
 
 
@@ -42,8 +43,11 @@ st.set_page_config(
 kill_top_margin()
 
 st.markdown(
-    "<h1 style='text-align: center; color: #0d523a;'>Diagrama de gantt - Planeacion del proyecto</h1><br>", 
+    "<br/><br/><h1 style='text-align: center; color: #0d523a;'>Diagrama de gantt - Planeacion del proyecto</h1><br/>", 
     unsafe_allow_html=True
 )
-st.plotly_chart(gantt())
 
+_, gantt_chart, _ = st.columns((1, 20, 3))
+
+with gantt_chart:
+    st.plotly_chart(gantt(), use_container_width=True)

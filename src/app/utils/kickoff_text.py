@@ -52,5 +52,3 @@ Con el conocimiento de lo que ha pasado, adquirido en la etapa anterior, y con l
 ### Reporte y conclusiones
 Con el dashboard generado y a partir de las métricas y KPI’s creadas se elaborará un informe resumiendo los principales insights  de los datos recopilados y se proporcionarán recomendaciones de acción para minimizar las emisiones de CO2 y por consiguiente, su impacto, en los países donde sea más factible y provechoso hacerlo.
 """
-
-GANTT_HEADER = "## Planificación - Diagrama de Gantt"

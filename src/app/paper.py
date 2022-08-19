@@ -9,18 +9,12 @@ def doc() -> None:
         st.markdown(DOC)
 
 
-def gantt() -> None:
-    canvas = st.empty()
-    with canvas.container():
-        st.markdown(GANTT_HEADER)
-
-
 def run() -> None:
     page = st.empty()
     with page.container():
         doc()
-        gantt()
 
 
 if __name__ == '__main__':
+    st.set_page_config(layout='centered', page_title='paper')
     run()
