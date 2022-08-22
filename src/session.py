@@ -22,11 +22,11 @@ def spark_session() -> SparkSession:
         return spark
 
 
-def updata(spark: SparkSession, path: str) -> DataFrame:
+def updata(spark: SparkSession, path: str, name: str) -> DataFrame:
     """
     Usage
     >>> spark = spark_session
-    >>> df = updata(spark, 'datasets/data.csv')
+    >>> df = updata(spark, 'datasets/data.csv', data)
     """
 
     data: DataFrame = spark.read.csv(
@@ -35,9 +35,9 @@ def updata(spark: SparkSession, path: str) -> DataFrame:
     )
 
     try:
-        spark.sql("SELECT * FROM data")
+        spark.sql(f"SELECT * FROM {name}")
 
     except AnalysisException:
-        data.registerTempTable("data")
+        data.registerTempTable(name)
 
     return data
