@@ -1,1 +1,3 @@
-[Bitacora](https://docs.google.com/document/d/1iUlVeI5qz6slVOLuMpGBvUvnKHLwMqnC2cybMLsU5fc/edit)
+### Docker cluster
+
+** Por mayor control y performance elegimos usar docker con la imagen... databricksruntime/minimal:9.x para la creacion del cluster
