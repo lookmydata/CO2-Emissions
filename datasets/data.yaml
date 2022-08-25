@@ -1,0 +1,69 @@
+energyco2:
+  dir: ./
+  file: energyco2.csv
+  group: basic
+  doc: 
+    - en_contenido.txt
+
+global_power_plant:
+  dir: ./
+  file: global_power_plant_database.csv
+  group: basic
+  doc: 
+    - glob_contenido.txt
+
+frecuencia_desastres_naturales:
+  dir: ./desastres_naturales/
+  file: Climate-related_Disasters_Frequency.csv
+  group: desastres_naturales
+  doc: 
+    - contenido.txt
+
+energia_estadistica_mensual:
+  dir: ./energia_estadistica_mensual/
+  file: MES_0522.csv
+  group: null
+  doc: 
+    - contenido.txt
+
+
+acceso_electricidad:
+  dir: ./energias_renovables/
+  file: gtfenergyaccessdata.csv
+  group: energias_renovables
+  doc: 
+    - gtfindicatorsmetadata.xlsx
+    - contenido.txt
+
+intensidad_electricidad_primaria:
+  dir: ./energias_renovables/
+  file: gtfprimaryenergyintensitydata.csv
+  group: energias_renovables
+  doc: 
+    - gtfindicatorsmetadata.xlsx
+    - contenido.txt
+
+energia_renovable:
+  dir: ./energias_renovables/
+  file: gtfrenewableenergydata.csv
+  group: energias_renovables
+  doc: 
+    - gtfindicatorsmetadata.xlsx
+    - contenido.txt
+
+consumo_energia:
+  dir: ./energy_consuption/
+  file: gtfrenewableenergydata.csv
+  group: null
+  doc: 
+    - contenido.txt 
+    - owid-energy-datadiccionary.csv
+
+casos_cancer_pulmon:
+  dir: ./enfermedades/
+  file: 
+    - lung_cancer_number_of_new_female_cases.csv
+    - lung_cancer_number_of_new_male_cases.csv
+  group: null
+  doc: 
+    - contenido.txt
