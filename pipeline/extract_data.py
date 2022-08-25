@@ -15,6 +15,23 @@ url_climateDisasters =  "https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/re
 class loadData():
 
     def getPowerPlantsData(self,url,xpath,folder):
+        """
+        Descarga el csv de powerPlantsData
+
+        Parameters
+        ----------
+        url: str 
+            url que contiene el link de descarga
+        xpath: str 
+            xpath del link de descarga. Salvo que la página se modifique, se mantiene constante
+        folder: str 
+            carpeta del sistema de archivos donde se guardará el csv del dataset
+
+        Examples
+        --------
+        >>> data = loadData()
+        >>> data.getp....(url=url)
+        """
         self.url = url
         self.xpath = xpath
         self.folder = folder
@@ -37,6 +54,10 @@ class loadData():
         return
 
     def getEnergyData(self,url,folder):
+        """
+        url: str - url que contiene el link de descarga
+        folder: str - carpeta del sistema de archivos donde se guardará el csv del dataset
+        """
         self.url = url
         self.folder = folder
         s = HTMLSession()
@@ -60,14 +81,3 @@ class loadData():
     
 
 data = loadData()
-
-
-#La clase loadData() contiene métodos para diferentes Datasets:
-# getPowerPlantsData(url,xpath,folder)
-#   url: str - url que contiene el link de descarga
-#   xpath: str - xpath del link de descarga. Salvo que la página se modifique, se mantiene constante
-#   folder: str - carpeta del sistema de archivos donde se guardará el csv del dataset
-
-# getEnergyData(url,folder)
-#   url: str - url que contiene el link de descarga
-#   folder: str - carpeta del sistema de archivos donde se guardará el csv del dataset
