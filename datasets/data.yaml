@@ -52,18 +52,23 @@ energia_renovable:
     - contenido.txt
 
 consumo_energia:
-  dir: ./energy_consuption/
-  file: gtfrenewableenergydata.csv
+  dir: ./energy_consumption/
+  file: owid-energy-consumption-source.csv
   group: null
   doc: 
     - contenido.txt 
     - owid-energy-datadiccionary.csv
 
-casos_cancer_pulmon:
+hombre_casos_cancer_pulmon:
   dir: ./enfermedades/
-  file: 
-    - lung_cancer_number_of_new_female_cases.csv
-    - lung_cancer_number_of_new_male_cases.csv
+  file: lung_cancer_number_of_new_male_cases.csv
+  group: null
+  doc: 
+    - contenido.txt
+
+mujer_casos_cancer_pulmon:
+  dir: ./enfermedades/
+  file: lung_cancer_number_of_new_female_cases.csv
   group: null
   doc: 
     - contenido.txt
