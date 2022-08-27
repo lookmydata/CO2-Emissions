@@ -1,0 +1,49 @@
+ETL
+Infraestructura de datos
+Explicación de datasets y sus features
+Api y dashboard
+
+
+Infraestructura
+
+Alternativas:
+    Databricks - Docker
+
+Desicion:
+    Elegi aws porque es confiable, escalable y presupuesto inicial nulo.
+    Es que Databricks no nos ofrece soporte para airflow en su version gratuita y es bastante limitada
+
+Fortaleza:
+    Robusto, Escalable, Presupuesto inicial nulo 
+
+Amenaza:
+    Estos modulos tienen limitaciones a nivel gratuito
+
+Debilidad:
+    Dependemos de aws.
+    
+Oportunidades:
+    14 dias de prueba en Databricks
+
+
+Propuesta:
+    Aws nos ofrece sus servicios con limites cada mes. Con esto optamos por armar un script que corra todos los meses y no llegue a ese limite. Ademas si lo pensamos a nivel negocio, este sistema nos da el suficiente tiempo y dinero para en un futuro plantearse Escalar el servicio nube. EKS kubernetes quiza o EMR map reduce hadoop
+
+
+airflow, aws, databricks, delta lake, spark
+
+
+Guion:
+    Porque elegimos un data lakehouse? Esta infraestructura nos permite tomar datos crudos y estructurados. Esto lo facilita la tecnologia delta. Ademas de tener mejor rendimiento que parquet a costa de mas peso de archivos. La principal razon y ventaja por lo cual elegimos esta estructura es que necesitamos de datos sin ETL para los modelos de machine learning y para analicis de datos necesitamos tablas normalizadas.
+    
+    Nuestro objetivo es ofrecer este producto de manera que sea por sobre todo escalable y de presupuesto nulo.
+    Por eso elegimos aws por sobre databricks
+    Databricks es ideal para un proyecto de datos que no dure mas de 14 dias ya que eso dura su version de prueba
+    
+    Una pata importante del proyecto es airflow. Este es un programable al que le podemos pasar nuestro ETL como flujo de tareas (DAGs) y definir cuando se ejecuta. Para montarlo en aws usamos el operador de lambda, ademas lambda nos sirve como gatillador.  Pudiendo detectar si se carga o modifica un archivo dentro del bucket o externamente puede conectarse a APIs y ejecutar funciones dependiendo lo que reciba
+    
+    Como consultamos a esta base de datos? Es el turno de Redshift... Aunque Redshift maneja data warehouse y base de datos relacionales. Gracias a glue data catalog podemos clasificar estos datos y consultarlos con Redshift todo esto es consultado desde aws y tiene implementacion con spark y hive. Esta bases de datos se tranforma en tablas ya normalizadas y relacionadas. Para guardar estas tablas amazon nos ofrece un servicio gratuito de por vida llamado dynamodb.
+
+    Los modelos toman datos directamente del bucket y de nuestras metricas. Para los analicis consultamos a redshift y los almacenamos en el dynamodb 
+
+    Por ultimo armamos un api y visualizacion en un dashboard hecho con streamlit como producto

@@ -1,0 +1,20 @@
+[2022-08-27 22:28:26,873] {dag_processing.py:604} INFO - Processing files using up to 2 processes at a time 
+[2022-08-27 22:28:26,873] {dag_processing.py:605} INFO - Process each file at most once every 30 seconds
+[2022-08-27 22:28:26,873] {dag_processing.py:607} INFO - Checking for new files in /opt/airflow/dags every 30 seconds
+[2022-08-27 22:28:26,873] {dag_processing.py:755} INFO - Searching for files in /opt/airflow/dags
+[2022-08-27 22:28:29,024] {dag_processing.py:758} INFO - There are 31 files in /opt/airflow/dags
+[2022-08-27 22:29:02,644] {dag_processing.py:604} INFO - Processing files using up to 2 processes at a time 
+[2022-08-27 22:29:02,644] {dag_processing.py:605} INFO - Process each file at most once every 30 seconds
+[2022-08-27 22:29:02,644] {dag_processing.py:607} INFO - Checking for new files in /opt/airflow/dags every 30 seconds
+[2022-08-27 22:29:02,644] {dag_processing.py:755} INFO - Searching for files in /opt/airflow/dags
+[2022-08-27 22:29:02,649] {dag_processing.py:758} INFO - There are 31 files in /opt/airflow/dags
+[2022-08-27 22:29:20,535] {dag_processing.py:604} INFO - Processing files using up to 2 processes at a time 
+[2022-08-27 22:29:20,536] {dag_processing.py:605} INFO - Process each file at most once every 30 seconds
+[2022-08-27 22:29:20,536] {dag_processing.py:607} INFO - Checking for new files in /opt/airflow/dags every 30 seconds
+[2022-08-27 22:29:20,536] {dag_processing.py:755} INFO - Searching for files in /opt/airflow/dags
+[2022-08-27 22:29:20,544] {dag_processing.py:758} INFO - There are 31 files in /opt/airflow/dags
+[2022-08-27 22:29:43,470] {dag_processing.py:604} INFO - Processing files using up to 2 processes at a time 
+[2022-08-27 22:29:43,471] {dag_processing.py:605} INFO - Process each file at most once every 30 seconds
+[2022-08-27 22:29:43,471] {dag_processing.py:607} INFO - Checking for new files in /opt/airflow/dags every 30 seconds
+[2022-08-27 22:29:43,471] {dag_processing.py:755} INFO - Searching for files in /opt/airflow/dags
+[2022-08-27 22:29:43,478] {dag_processing.py:758} INFO - There are 31 files in /opt/airflow/dags

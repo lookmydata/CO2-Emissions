@@ -1,0 +1,7 @@
+- name: 'Validate DAGs'
+  uses: jayamanikharyono/airflow-dag-action@v2.0
+  with:
+    requirementsFile: tests/requirements.txt
+    dagPaths: tests/dags
+    varFile: tests/var.json
+    accessToken: ${{ secrets.GITHUB_TOKEN }}
