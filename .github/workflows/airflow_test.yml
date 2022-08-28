@@ -1,0 +1,6 @@
+- name: 'Test Airflow DAGs'
+  uses: micael-grilo/airflow-dags-test-action@v2.2.2
+    with:
+      dags-path: test/dags
+      dags-test-folder: test/tests
+      var-file: test/var.json
