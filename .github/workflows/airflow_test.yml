@@ -1,2 +1,14 @@
-- name: 'Test Airflow DAGs'
-  uses: micael-grilo/airflow-dags-test-action@v2.2.2
+on:
+  push:
+    paths:
+      - test/dags/**
+    branches:
+      - main
+      - dev
+
+jobs:
+  test_airflow:
+    runs-on: ubuntu-lastest
+    steps:
+      - name: 'Test Airflow DAGs'
+        uses: micael-grilo/airflow-dags-test-action@v2.2.2
