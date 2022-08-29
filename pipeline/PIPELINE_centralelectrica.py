@@ -6,7 +6,7 @@ def listcol_df(dataframe):
 
 def gppdb():
     dataframe = pd.read_csv(
-        "../datasets/global_power_plant_database.csv", low_memory=False
+        r"../datasets/global_power_plant_database.csv", low_memory=False
     )
     df = dataframe.copy()
 

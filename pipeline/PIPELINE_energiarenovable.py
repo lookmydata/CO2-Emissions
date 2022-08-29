@@ -70,18 +70,17 @@ def gtf_norm(dataframe):
     return df1
 
 
-energy_access = gtf_norm(
-    pd.read_csv("../datasets/energias_renovables/gtfenergyaccessdata.csv")
-)
+# energy_access = gtf_norm(
+#     pd.read_csv("../datasets/energias_renovables/gtfenergyaccessdata.csv")
+# )
 # energy_access.to_parquet('../datasets/energias_renovables/NORMALIZADO_acceso_a_electricidad.parquet')
-energy_intensity = gtf_norm(
-    pd.read_csv(
-        "../datasets/energias_renovables/gtfprimaryenergyintensitydata.csv"
-    )
-)
+# energy_intensity = gtf_norm(
+#     pd.read_csv(
+#         "../datasets/energias_renovables/gtfprimaryenergyintensitydata.csv"
+#     )
+# )
 # energy_intensity.to_parquet('../datasets/energias_renovables/NORMALIZADO_intensidad_electricidad_primaria.parquet')
-
-renewable_energy = gtf_norm(
-    pd.read_csv("../datasets/energias_renovables/gtfrenewableenergydata.csv")
-)
+# renewable_energy = gtf_norm(
+#     pd.read_csv("../datasets/energias_renovables/gtfrenewableenergydata.csv")
+# )
 # renewable_energy.to_parquet('../datasets/energias_renovables/NORMALIZADO_data_energia_renovable.parquet')
