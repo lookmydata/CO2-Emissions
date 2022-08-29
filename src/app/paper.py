@@ -15,6 +15,6 @@ def run() -> None:
         doc()
 
 
-if __name__ == '__main__':
-    st.set_page_config(layout='centered', page_title='paper')
+if __name__ == "__main__":
+    st.set_page_config(layout="centered", page_title="paper")
     run()

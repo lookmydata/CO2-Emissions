@@ -10,12 +10,10 @@ def spark_session() -> SparkSession:
 
     else:
         spark: SparkSession = (
-            SparkSession
-            .builder
-            .master("local")
+            SparkSession.builder.master("local")
             .appName("CO2_Emissions")
-            .config('spark.driver.host', '127.0.0.1')
-            .config('spark.driver.bindAddress', '127.0.0.1')
+            .config("spark.driver.host", "127.0.0.1")
+            .config("spark.driver.bindAddress", "127.0.0.1")
             .config("spark.ui.port", "4040")
             .getOrCreate()
         )

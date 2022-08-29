@@ -13,33 +13,59 @@
 # ---
 
 import pandas as pd
-import numpy as np
-import datetime as dt
 import re
 import requests
 
-dic_cols = {'country':'pais','type':'tipo','year':'anio','consumption':'cons','production':'produccion','gdp':'pbi','population':'poblacion','intensity':'intensidad','emission':'emision_co2','indicator':'indicador','fuel':'combustible','wind':'eolica','electricity':'elec','energy':'energia','iso_code':'pais_iso','share':'participacion','renewable':'renovable','oil':'petroleo','change':'cambio','coal':'carbon','time':'periodo','product':'producto','value':'valor','unit':'unidad','iso3':'pais_iso','source':'fuente'}
+dic_cols = {
+    "country": "pais",
+    "type": "tipo",
+    "year": "anio",
+    "consumption": "cons",
+    "production": "produccion",
+    "gdp": "pbi",
+    "population": "poblacion",
+    "intensity": "intensidad",
+    "emission": "emision_co2",
+    "indicator": "indicador",
+    "fuel": "combustible",
+    "wind": "eolica",
+    "electricity": "elec",
+    "energy": "energia",
+    "iso_code": "pais_iso",
+    "share": "participacion",
+    "renewable": "renovable",
+    "oil": "petroleo",
+    "change": "cambio",
+    "coal": "carbon",
+    "time": "periodo",
+    "product": "producto",
+    "value": "valor",
+    "unit": "unidad",
+    "iso3": "pais_iso",
+    "source": "fuente",
+}
 
 
 # +
-def nomCols(df,dic):
+def nomCols(df, dic):
     for column in df.columns:
-        df.rename(columns={column:column.lower()},inplace=True)
+        df.rename(columns={column: column.lower()}, inplace=True)
     for column in df.columns:
         for key in dic.keys():
             if column == key:
-                nom = column.replace(column,dic[key])
-                df.rename(columns={column:nom},inplace=True)
+                nom = column.replace(column, dic[key])
+                df.rename(columns={column: nom}, inplace=True)
             elif key in column:
-                nom = column.replace(key,dic[key])
-                df.rename(columns={column:nom},inplace=True)
+                nom = column.replace(key, dic[key])
+                df.rename(columns={column: nom}, inplace=True)
     return df
 
-def dropBeforeYear(df,year):
-    lista = ['year','anio','año']
+
+def dropBeforeYear(df, year):
+    lista = ["year", "anio", "año"]
     for column in df.columns:
         if column.lower() in lista:
-            df = df[df[column]>=year].reset_index(drop=True)
+            df = df[df[column] >= year].reset_index(drop=True)
     return df
 
 
@@ -55,20 +81,19 @@ df = pd.DataFrame(dataset)
 df = df.drop(columns="Unnamed: 0")
 
 
-#Le paso una serie y un tipo para chequear si los elementos de la serie pertenecen a esa clase o no
-def chequeoTipo(serie,clase):
+# Le paso una serie y un tipo para chequear si los elementos de la serie pertenecen a esa clase o no
+def chequeoTipo(serie, clase):
     pertenece = False
     lista = []
     for item in serie:
-        if isinstance(item,clase):
+        if isinstance(item, clase):
             pertenece = True
         else:
             lista.append(item)
-    if len(lista)>0:
+    if len(lista) > 0:
         return lista
-    else: 
-        return pertenece   
-
+    else:
+        return pertenece
 
 
 # +
@@ -78,7 +103,7 @@ def chequeoTipo(serie,clase):
 #             print(f"{item}:{type(df[item][i])}")
 # -
 
-chequeoTipo(df['CO2_emission'],float)
+chequeoTipo(df["CO2_emission"], float)
 
 # Todos los features tienen elementos de las clases adecuadas para sus datos
 
@@ -87,7 +112,7 @@ chequeoTipo(df['CO2_emission'],float)
 # Una vez que ya chequee que cada columna tenga el tipo de dato adecuado, puedo usar esa condicion para chequear todas las columnas y convertir a float de dos digitos
 
 for columna in df.columns:
-    if isinstance(df[columna][1],float):
+    if isinstance(df[columna][1], float):
         df[columna] = df[columna].round(2)
 
 # <hr>
@@ -95,58 +120,64 @@ for columna in df.columns:
 # <h1>Climate Related Disasters Frequency</h1>
 # <h2><i>Version CSV</i></h2>
 
-dataset = pd.read_csv(r"..\desastres_naturales\Climate-related_Disasters_Frequency.csv")
+dataset = pd.read_csv(
+    r"..\desastres_naturales\Climate-related_Disasters_Frequency.csv"
+)
 df2 = pd.DataFrame(dataset)
 
 df2.head(2)
 
-df2 = df2.drop(columns=['ObjectId','ISO2','Code','Unit'])
+df2 = df2.drop(columns=["ObjectId", "ISO2", "Code", "Unit"])
 
 # Convierto NaN en ceros (en este caso se trata de frecuencias)
 
-df2.iloc[:,5:] = df2.iloc[:,5:].fillna(0)
+df2.iloc[:, 5:] = df2.iloc[:, 5:].fillna(0)
 
 # Aplico la funcion para renombrar columnas nomCols usando el diccionario creado, dic_cols
 
-nomCols(df2,dic_cols)
+nomCols(df2, dic_cols)
 
-df2.iloc[:,5:] = df2.iloc[:,5:].fillna(0)
+df2.iloc[:, 5:] = df2.iloc[:, 5:].fillna(0)
 for column in df2.columns:
-    if re.search('f\d{2,}', column):
-        nom = column.split('f')[1]
-        df2[column]=df2[column].round(2)
-        df2.rename(columns={column:nom},inplace=True)
+    if re.search("f\d{2,}", column):
+        nom = column.split("f")[1]
+        df2[column] = df2[column].round(2)
+        df2.rename(columns={column: nom}, inplace=True)
 
 df2.indicador.unique()
 
 # Recorto los datos de la columna indicador para mostrar unicamente los descriptores
 
-df2['indicador'] = df2['indicador'].apply(lambda x: x.split(': ')[1])
+df2["indicador"] = df2["indicador"].apply(lambda x: x.split(": ")[1])
 
-df2.to_parquet(r"..\desastres_naturales\Climate-related_Disasters_Frequency_normalizado.parquet")
+df2.to_parquet(
+    r"..\desastres_naturales\Climate-related_Disasters_Frequency_normalizado.parquet"
+)
 
 # <hr>
 
 # <h1>OWID-Energy-Consumption-Source</h1>
 
-dataset = pd.read_csv(r"..\energy_consumption\owid-energy-consumption-source.csv")
+dataset = pd.read_csv(
+    r"..\energy_consumption\owid-energy-consumption-source.csv"
+)
 df3 = pd.DataFrame(dataset)
 
 df3.head()
 
-for i in range(3,128):
-    if chequeoTipo(df3.iloc[:,i],float):
+for i in range(3, 128):
+    if chequeoTipo(df3.iloc[:, i], float):
         continue
     else:
         print(f"{df3.iloc[0:1,i]}")
 
 # Renombro columnas y me quedo con datos de 1980 en adelante
 
-nomCols(df3,dic_cols)
-df3 = dropBeforeYear(df3,1980)
+nomCols(df3, dic_cols)
+df3 = dropBeforeYear(df3, 1980)
 
 for columna in df3.columns:
-    if isinstance(df3[columna][2],float):
+    if isinstance(df3[columna][2], float):
         df3[columna] = df3[columna].round(2)
 
 df3.shape
@@ -157,14 +188,21 @@ df3.dropna(thresh=4)
 
 lista = []
 for column in df3.columns:
-    if '_pct' in column or 'cambio' in column or 'per_capita' in column or '_participacion_' in column:
+    if (
+        "_pct" in column
+        or "cambio" in column
+        or "per_capita" in column
+        or "_participacion_" in column
+    ):
         lista.append(column)
 
 df3 = df3.drop(columns=lista)
 
 df3.head()
 
-df3.to_parquet(r"..\energy_consumption\owid-energy-consumption-source_normalizado.parquet")
+df3.to_parquet(
+    r"..\energy_consumption\owid-energy-consumption-source_normalizado.parquet"
+)
 
 # <hr>
 
@@ -175,36 +213,40 @@ df4 = pd.DataFrame(dataset)
 
 df4.head(1)
 
-nomCols(df4,dic_cols)
+nomCols(df4, dic_cols)
 
 df4.shape
 
-df4.dropna(subset='valor',inplace=True)
+df4.dropna(subset="valor", inplace=True)
 
 df4.isna().sum()
 
 pertenece = False
 lista = []
-for item in df4.iloc[:,4]:
-    if isinstance(item,float):
+for item in df4.iloc[:, 4]:
+    if isinstance(item, float):
         pertenece = True
     else:
-        lista.append((item,df4.columns[i]))
-if len(lista)>0:
+        lista.append((item, df4.columns[i]))
+if len(lista) > 0:
     print(lista)
-else: 
-    print(pertenece) 
+else:
+    print(pertenece)
 
-df4['periodo'] = pd.to_datetime(df4['periodo'])
-df4['valor'] = df4['valor'].round(2)
-df4['anio'] = df4['periodo'].dt.year
-df4['mes'] = df4['periodo'].dt.month
+df4["periodo"] = pd.to_datetime(df4["periodo"])
+df4["valor"] = df4["valor"].round(2)
+df4["anio"] = df4["periodo"].dt.year
+df4["mes"] = df4["periodo"].dt.month
 
-df4 = df4[['anio','mes','pais','balance','producto','valor']].sort_values(by=['anio','mes'])
-df4.rename(columns={'valor':'cons_energia_gwh'},inplace=True)
+df4 = df4[["anio", "mes", "pais", "balance", "producto", "valor"]].sort_values(
+    by=["anio", "mes"]
+)
+df4.rename(columns={"valor": "cons_energia_gwh"}, inplace=True)
 
 
-df4.to_parquet(r"C:\Users\ferch\Desktop\Henry\Proyecto Grupal\CO2-Emissions\datasets\energia_estadistica_mensual\MES_O522_normalizado.parquet")
+df4.to_parquet(
+    r"C:\Users\ferch\Desktop\Henry\Proyecto Grupal\CO2-Emissions\datasets\energia_estadistica_mensual\MES_O522_normalizado.parquet"
+)
 
 # <h1>Climate Related Disasters Frequency</h1>
 # <h2>Versión API</h2>
@@ -214,30 +256,30 @@ response = requests.get(url).json()
 
 df5 = pd.DataFrame()
 
-lista = [item for item in response['features'][0]['attributes'].keys()]
+lista = [item for item in response["features"][0]["attributes"].keys()]
 
-for i in range(0,len(response['features'])):
-    df = pd.DataFrame.from_dict([response['features'][i]['attributes']])
-    data=(df5,df)
-    df5=pd.concat(data)
+for i in range(0, len(response["features"])):
+    df = pd.DataFrame.from_dict([response["features"][i]["attributes"]])
+    data = (df5, df)
+    df5 = pd.concat(data)
 
-df5.reset_index(drop=True,inplace=True)
+df5.reset_index(drop=True, inplace=True)
 
-nomCols(df5,dic_cols)
+nomCols(df5, dic_cols)
 
-df5.iloc[:,5:]
+df5.iloc[:, 5:]
 
 # Cambio nombres de columnas y aplico un fillna sobre los campos de frecuencias para luego aplicar un round
 
 for column in df5.columns:
-    if re.search('f\d{2,}', column):
+    if re.search("f\d{2,}", column):
         df5[column] = df5[column].fillna(0)
-        nom = column.split('f')[1]
+        nom = column.split("f")[1]
         df5[column] = df5[column].round(2)
-        df5.rename(columns={column:nom},inplace=True)
+        df5.rename(columns={column: nom}, inplace=True)
 
-df5['indicador'] = df2['indicador'].apply(lambda x: x.split(': ')[1])
+df5["indicador"] = df2["indicador"].apply(lambda x: x.split(": ")[1])
 
-df6 = df5.groupby(by='pais').sum().transpose()
+df6 = df5.groupby(by="pais").sum().transpose()
 
 df5.head()
