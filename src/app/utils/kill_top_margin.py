@@ -2,7 +2,8 @@ import streamlit as st
 
 
 def kill_top_margin():
-    st.markdown("""
+    st.markdown(
+        """
         <style>
                .css-18e3th9 {
                     padding-top: 0rem;
@@ -17,6 +18,6 @@ def kill_top_margin():
                     padding-left: 1rem;
                 }
         </style>
-        """, 
-        unsafe_allow_html=True
+        """,
+        unsafe_allow_html=True,
     )
