@@ -8,4 +8,4 @@ def get_tabla_pais():
 
 
 # tabla=get_tabla_pais()
-# tabla.to_parquet('../datasets/tabla_pais.parquet')
+# tabla.to_csv('../datasets/tabla_pais.csv')
