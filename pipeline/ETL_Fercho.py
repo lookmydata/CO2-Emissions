@@ -138,6 +138,7 @@ df2.iloc[:, 5:] = df2.iloc[:, 5:].fillna(0)
 nomCols(df2, dic_cols)
 
 df2.iloc[:, 5:] = df2.iloc[:, 5:].fillna(0)
+
 for column in df2.columns:
     if re.search("f\d{2,}", column):
         nom = column.split("f")[1]
