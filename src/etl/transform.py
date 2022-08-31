@@ -36,15 +36,15 @@ def gppdb():
     df.rename(columns=dict_cols, inplace=True)
 
 
-dataset = pd.read_csv(
-    "../../datasets/desastres_naturales/Climate-related_Disasters_Frequency.csv"
-)
+# dataset = pd.read_csv(
+#     "../../datasets/desastres_naturales/Climate-related_Disasters_Frequency.csv"
+# )
 # print(dataset.columns)
 
 
-dataset = pd.read_csv(
-    "../../datasets/energy_consumption/owid-energy-consumption-source.csv"
-)
+# dataset = pd.read_csv(
+#     "../../datasets/energy_consumption/owid-energy-consumption-source.csv"
+# )
 
 # print(dataset.columns)
 
