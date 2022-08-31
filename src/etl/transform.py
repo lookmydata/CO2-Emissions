@@ -4,36 +4,36 @@ import re
 
 
 # funcion valen
-def gppdb():
-    dataframe = pd.read_csv(
-        "../datasets/global_power_plant_database.csv", low_memory=False
-    )
-    df = dataframe.copy()
-
-    dict_cols = {
-        "country_long": "pais",
-        "country": "codigo_iso",
-        "name": "nombre",
-        "gppd_idnr": "ID_central_electrica",
-        "capacity_mv": "capacidad_mv",
-        "latitude": "latitud",
-        "longitude": "longitud",
-        "primary_fuel": "combustible_primario",
-        "other_fuel1": "otra_energia1",
-        "other_fuel2": "otra_energia2",
-        "other_fuel3": "otra_energia3",
-        "commissioning_year": "año_apertura",
-        "owner": "dueño",
-        "year_of_capacity_data": "año_capacidad_reportada",
-        "generation_gwh_2013": "2013",
-        "generation_gwh_2014": "2014",
-        "generation_gwh_2015": "2015",
-        "generation_gwh_2016": "2016",
-        "generation_gwh_2017": "2017",
-        "generation_gwh_2018": "2018",
-        "generation_gwh_2019": "2019",
-    }
-    df.rename(columns=dict_cols, inplace=True)
+# def gppdb():
+#     dataframe = pd.read_csv(
+#         "../datasets/global_power_plant_database.csv", low_memory=False
+#     )
+#     df = dataframe.copy()
+# 
+#     dict_cols = {
+#         "country_long": "pais",
+#         "country": "codigo_iso",
+#         "name": "nombre",
+#         "gppd_idnr": "ID_central_electrica",
+#         "capacity_mv": "capacidad_mv",
+#         "latitude": "latitud",
+#         "longitude": "longitud",
+#         "primary_fuel": "combustible_primario",
+#         "other_fuel1": "otra_energia1",
+#         "other_fuel2": "otra_energia2",
+#         "other_fuel3": "otra_energia3",
+#         "commissioning_year": "año_apertura",
+#         "owner": "dueño",
+#         "year_of_capacity_data": "año_capacidad_reportada",
+#         "generation_gwh_2013": "2013",
+#         "generation_gwh_2014": "2014",
+#         "generation_gwh_2015": "2015",
+#         "generation_gwh_2016": "2016",
+#         "generation_gwh_2017": "2017",
+#         "generation_gwh_2018": "2018",
+#         "generation_gwh_2019": "2019",
+#     }
+#     df.rename(columns=dict_cols, inplace=True)
 
 
 # dataset = pd.read_csv(
