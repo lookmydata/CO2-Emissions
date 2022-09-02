@@ -176,7 +176,7 @@ class Transform(pd.DataFrame):
 # TRANSFORMACION FERCHO -- REALIZADO
 
 # REALIZADO
-def T_desastres_naturales(data):
+def T_desastres_naturales(data) -> pd.DataFrame:
     return (
         Transform(data)
         .drop(columns=["ObjectId", "ISO2", "Code", "Unit"])
@@ -211,9 +211,8 @@ def T_desastres_naturales(data):
 
 
 # REALIZADO
-def T_energyco2(data):
+def T_energyco2(data) -> pd.DataFrame:
     return Transform(data).drop(columns="Unnamed: 0").rename_columns().round(2)
-
 
 # df = pd.read_csv("../../datasets/energyco2.csv")
 # data = T_energyco2(df)
@@ -221,30 +220,29 @@ def T_energyco2(data):
 
 
 # REALIZADO
-def T_consumo_energia(data):
+def T_consumo_energia(data) -> pd.DataFrame:
     return (
         Transform(data)
+        .drop([
+                c
+                for c in data.columns
+                if "_pct" in c
+                or "change" in c
+                or "per_capita" in c
+                or "share" in c
+            ], axis=1
+        )
         .rename_columns()
         .rename_by_substring()
         .drop_before_year(1980)
         .round(2)
         .dropna(thresh=4)
-        .drop(
-            [
-                c
-                for c in data.columns
-                if "_pct" in c
-                or "cambio" in c
-                or "per_capita" in c
-                or "_participacion_" in c
-            ]
-        )
-        .astype(
-            {
-                "pais": "string",
-                "pais_iso": "string",
-            }
-        )
+        # .astype(
+        #     {
+        #         "pais": "string",
+        #         "pais_iso": "string",
+        #     }
+        # )
     )
 
 
@@ -256,7 +254,7 @@ def T_consumo_energia(data):
 
 
 # REALIZADO
-def T_energia_estadistica_mensual(data):
+def T_energia_estadistica_mensual(data) -> pd.DataFrame:
     return (
         Transform(data)
         .rename_columns()
