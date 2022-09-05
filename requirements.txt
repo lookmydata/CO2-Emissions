@@ -1,4 +1,4 @@
-airflow==2.2.0
+apache-airflow==2.2.0
 alembic==1.8.1
 alsa-lib==1.2.6.1
 altair==4.2.0
