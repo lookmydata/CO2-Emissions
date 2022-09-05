@@ -18,3 +18,8 @@ templates = Jinja2Templates(directory=templates_path)
 @API.get('/CO2-Emissions/api', response_class=HTMLResponse)
 async def helloworld(request: Request):
      return templates.TemplateResponse('index.html', {'request': request})
+
+
+@API.get('/CO2-Emissions/hola', response_class=HTMLResponse)
+async def helloworld(request: Request):
+     return "<h1>HOLA mario<h1>"
