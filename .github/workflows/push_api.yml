@@ -1,0 +1,44 @@
+name: Deploy API on GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  generate-openapi-spec:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: Install Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.9"
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Generate openapi.json
+        run: python src/api/openapi.py
+      - name: Upload openapi.json
+        uses: actions/upload-artifact@v2
+        with:
+          name: spec-file
+          path: openapi.json
+  deploy:
+    needs: generate-openapi-spec
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download openapi.json
+        uses: actions/download-artifact@v2
+        with:
+          name: spec-file
+      - name: Generate Swagger UI
+        uses: Legion2/swagger-ui-action@v1
+        with:
+          output: swagger-ui
+          spec-file: openapi.json
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: swagger-ui
