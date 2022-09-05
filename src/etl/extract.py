@@ -80,6 +80,3 @@ class Extract:
             data = (df5, df)
             df5 = pd.concat(data)
         return df5
-
-
-Extract().getPowerPlantsData('hola')
