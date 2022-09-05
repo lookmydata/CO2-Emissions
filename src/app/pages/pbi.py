@@ -4,17 +4,13 @@ import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
-from home import background_image_style
 
 @st.cache
 def read(csv):
     return pd.read_csv(csv)
 
-st.set_page_config(layout="wide")
-
-
-df_pbi=read('C:/Users/Marcela/Desktop/HENRY/PF/CO2-Emissions/src/app/utils/dfpbi.csv')
-col=st.columns(1)
+df_pbi=read('src/app/utils/dfpbi.csv')
+col=st.columns(1,gap='small')
 cont=st.container()
 
 with col[0]:
@@ -57,5 +53,3 @@ with cont:
 
 
     st.plotly_chart(fig)
-# image_path = 'utils/INFORME Presentación Look My Data week 3.png'
-# st.write(background_image_style(image_path), unsafe_allow_html=True)
