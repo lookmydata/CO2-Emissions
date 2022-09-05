@@ -22,6 +22,24 @@
                     }
                 }
             }
+        },
+        "/CO2-Emissions/hola": {
+            "get": {
+                "summary": "Helloworld",
+                "operationId": "helloworld_CO2_Emissions_hola_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
