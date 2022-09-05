@@ -40,8 +40,8 @@ with cols[0]:
 df_top=df_top.loc[(df_top['anio']>=start)&(df_top['anio']<=end)]
 fig = px.line(df_top,x='anio',y='pct_chg_co2',color='pais')
 fig.update_layout(  title="Porcentaje de cambio en emisiones de CO2, TOP5 paises emisores",
-                    height=300,
-                    width=500,
+                    height=400,
+                    width=700,
                     margin={'l': 30, 'r': 20, 't': 30, 'b': 10},
                     xaxis=dict(automargin= True,
                                     tickangle= 40,
@@ -80,7 +80,7 @@ if len(multi_pais)==0:
     ))
     fig1.update_layout( title='Consumo vs produccion en top paises productores energia',
                         height=400,
-                        width=500,
+                        width=700,
                         margin={'l': 10, 'r': 10, 't': 30, 'b': 10},
                         xaxis=dict(automargin= True,
                                     tickangle= 45,
