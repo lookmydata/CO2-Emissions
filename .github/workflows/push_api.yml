@@ -3,7 +3,7 @@ name: Deploy API on GitHub Pages
 on:
   push:
     branches:
-      - main
+      - dev
 
 jobs:
   generate-openapi-spec:
