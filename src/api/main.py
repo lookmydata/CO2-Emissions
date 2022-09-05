@@ -15,6 +15,6 @@ API.mount("/static", StaticFiles(directory=static_path), name="static")
 templates = Jinja2Templates(directory=templates_path)
 
 
-@API.get('/api', response_class=HTMLResponse)
+@API.get('/CO2-Emissions/api', response_class=HTMLResponse)
 async def helloworld(request: Request):
      return templates.TemplateResponse('index.html', {'request': request})
