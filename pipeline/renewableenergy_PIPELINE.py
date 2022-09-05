@@ -1,9 +1,20 @@
 import pandas as pd
 
+class tools():
+    @staticmethod
+    def readcsv(df):
+        return pd.read_csv(df)
+    @staticmethod
+    def listar(object):
+        return object.to_list()
 
-def gtf_norm(dataframe):
+t=tools()
 
-    copy = dataframe.copy()
+def gtf_extract(dataframe):
+    return t.readcsv(dataframe).copy()
+
+def gtf_transform(dataframe):
+    copy=gtf_extract(dataframe)
     dict_cols = {
         "Series Code": "codigo_info",
         "Country Name": "pais",
@@ -45,7 +56,7 @@ def gtf_norm(dataframe):
         value_name="valor",
     )
 
-    ci_norm = df1.codigo_info.to_list()
+    ci_norm = t.listar(df1.codigo_info)
     ci_fin = []
     for i in ci_norm:
         a = i.split("_")
@@ -54,7 +65,7 @@ def gtf_norm(dataframe):
     df1["info_codigo"] = se
     df1.drop(columns="codigo_info", inplace=True)
 
-    tf = df1.valor.to_list()
+    tf = t.listar(df1.valor)
     tff = []
     for i in tf:
         if i != "..":
@@ -66,21 +77,5 @@ def gtf_norm(dataframe):
     df1["valor"] = se1
     df1["valor"] = df1.valor.replace("..", None)
     df1["anio"] = df1.anio.astype(int)
-
+    
     return df1
-
-
-# energy_access = gtf_norm(
-#     pd.read_csv("../datasets/energias_renovables/gtfenergyaccessdata.csv")
-# )
-# energy_access.to_parquet('../datasets/energias_renovables/NORMALIZADO_acceso_a_electricidad.parquet')
-# energy_intensity = gtf_norm(
-#     pd.read_csv(
-#         "../datasets/energias_renovables/gtfprimaryenergyintensitydata.csv"
-#     )
-# )
-# energy_intensity.to_parquet('../datasets/energias_renovables/NORMALIZADO_intensidad_electricidad_primaria.parquet')
-# renewable_energy = gtf_norm(
-#     pd.read_csv("../datasets/energias_renovables/gtfrenewableenergydata.csv")
-# )
-# renewable_energy.to_parquet('../datasets/energias_renovables/NORMALIZADO_data_energia_renovable.parquet')
