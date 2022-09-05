@@ -5,10 +5,10 @@
         "version": "0.1.0"
     },
     "paths": {
-        "/api": {
+        "/CO2-Emissions/api": {
             "get": {
                 "summary": "Helloworld",
-                "operationId": "helloworld_api_get",
+                "operationId": "helloworld_CO2_Emissions_api_get",
                 "responses": {
                     "200": {
                         "description": "Successful Response",
