@@ -9,47 +9,34 @@ from plotly.subplots import make_subplots
 def read(csv):
     return pd.read_csv(csv)
 
-df_pbi=read('src/app/utils/dfpbi.csv')
-col=st.columns(1,gap='small')
+df19=read('utils/df19.csv')
+df_pbi=read('utils/dfpbi.csv')
+
+con1=st.container()
+col=st.columns(2,gap='medium')
 cont=st.container()
 
-with col[0]:
-    paises=df_pbi.pais.to_list()
-    metric=st.selectbox('Seleccione un País',paises)
-    df=df_pbi[df_pbi.pais==metric]
-    
-    var=df.cumplimiento.values-45
-    var1=df.cumplimiento.values
-    st.metric("EMISIONES CO2 -45% A 2030", f'{float(var1)}%',f'{round(float(var),2)}%')
 
+paises=df19.pais.to_list()
+with con1:
+    metric=st.sidebar.selectbox('Seleccione un País',paises)
+df=df19[df19.pais==metric] 
+var=df.cumplimiento.values-45
+var1=df.cumplimiento.values
+with col[0]:    
+    st.metric("EMISIONES CO2 -45% A 2030", f'{round(float(var1),2)}%',f'{round(float(var),2)}%')
+
+with col[1]:
+    st.metric("PBI 2019",df.pbi)
 
 with cont:
     title = f"PBI / cumplimiento de -45% CO2 entre TOP5 emision y TOP5 paises cumplimiento de meta (2019)"
 
-
     fig = make_subplots(specs=[[{"secondary_y": True}]])
     fig.add_trace(go.Bar(x=df_pbi['pais'],y=df_pbi['pbi'],name='PBI',marker=dict(color=px.colors.sequential.Emrld[2])))
     fig.add_trace(go.Scatter(x=df_pbi['pais'],y=df_pbi['cumplimiento'],name='Cumplimiento',mode='markers', marker_color=df_pbi['cumplimiento'],),secondary_y=True)
-    fig.update_layout( title=title,
-                         height=300,
-                         width=600,
-                         margin={'l': 10, 'r': 20, 't': 30, 'b': 10},
-                        xaxis=dict(automargin= True,
-                                    tickangle= 45,
-                                    title=dict(
-                                    # text="Month",
-                                    standoff= 20))
-                        ,yaxis=dict(automargin= True,
-                                tickangle= 0,
-                                title=dict(
-                                # text= "Temprature",
-                                standoff= 40)),
-                        legend=dict(
-                          yanchor="top",
-                          y=0.99,
-                          xanchor="left",
-                          x=1),
-                        barmode='stack')
+    fig.update_layout( 
+        title=title,
+        barmode='stack' )
 
-
-    st.plotly_chart(fig)
+    st.plotly_chart(fig,use_container_width=True)

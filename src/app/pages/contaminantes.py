@@ -7,6 +7,12 @@ import pandas as pd
 def read(csv):
     return pd.read_parquet(csv)
 
+# LAYOUT #
+st.set_page_config(layout='wide')
+cols=st.columns(1,gap='large')
+cont=st.columns(2,gap='large')
+pct=st.columns(2,gap='large')
+
 # GET DATA #
 data=read('datasets/energy_consumption/owid-energy-consumption-source_normalizado.parquet')
 
@@ -17,15 +23,10 @@ carbon_cons_fig, carbon_top_iso = data_cons.plot_and_top('carbon')
 gas_cons_fig, gas_top_iso = data_cons.plot_and_top('gas')
 petroleo_cons_fig, petroleo_top_iso = data_cons.plot_and_top('petroleo')
 
-# LAYOUT #
-cols=st.columns(1)#,gap='large')
-cont=st.columns(2,gap='large')
-pct=st.columns(2,gap='large')
-
 paises_cons=data_cons.pais_iso.unique()
 paises_cons=paises_cons.tolist()
 with cols[0]:
-    multi_pais=st.multiselect(
+    multi_pais=st.sidebar.multiselect(
     'Se mostraran resultados de consumo los siguientes paises:',
     paises_cons)#,help='Si la lista está vacia mostrará un top 10 paises que mas consumen energias contaminantes.')
 
@@ -37,27 +38,10 @@ with cont[0]:
     else:    
         fig, cons_table = multi_dfcons.reset_index().fig_and_table()
     fig.update_layout(
-        title='Consumo de energias contaminantes por pais',
-                        height=400,
-                        width=600,
-                        margin={'l': 10, 'r': 10, 't': 30, 'b': 10},
-                        xaxis=dict(automargin= True,
-                                    tickangle= 45,
-                                    title=dict(
-                                    # text="Month",
-                                    standoff= 20))
-                        ,yaxis=dict(automargin= True,
-                                tickangle= 0,
-                                title=dict(
-                                # text= "Temprature",
-                                standoff= 20)),
-                        legend=dict(
-                          yanchor="top",
-                          y=0.99,
-                          xanchor="left",
-                          x=0.90))
+        title='Consumo de energias contaminantes por pais'
+                       )
 
-    st.plotly_chart(fig)
+    st.plotly_chart(fig,use_container_width=True)
 
 
 data_pct_cons = data_cons.get_pct_change(2010, 2019)
@@ -69,29 +53,12 @@ with pct[0]:
        fig1 = pct_plot(df1)
 
     fig1.update_layout(
-                        title='Cambio porcentual desde 2010 en el consumo de energias contaminantes',
-                        height=400,
-                        width=600,
-                        margin={'l': 10, 'r': 10, 't': 30, 'b': 10},
-                        xaxis=dict(automargin= True,
-                                    tickangle= 45,
-                                    title=dict(
-                                    # text="Month",
-                                    standoff= 20))
-                        ,yaxis=dict(automargin= True,
-                                tickangle= 0,
-                                title=dict(
-                                # text= "Temprature",
-                                standoff= 20)),
-                        legend=dict(
-                          yanchor="top",
-                          y=0.99,
-                          xanchor="left",
-                          x=0.90))
-    st.plotly_chart(fig1)
+        title='Cambio porcentual desde 2010 en el consumo de energias contaminantes'
+                       )
+    st.plotly_chart(fig1,use_container_width=True)
+
 
 # PRODUCCION #
-
 data_produccion = BadEnergies(data).get_data('produccion')
 carbon_produccion_fig, carbon_top_iso = data_produccion.plot_and_top('carbon')
 gas_produccion_fig, gas_top_iso = data_produccion.plot_and_top('gas')
@@ -103,6 +70,7 @@ petroleo_produccion_fig, petroleo_top_iso = data_produccion.plot_and_top('petrol
 #     'Se mostraran resultados de producción los siguientes paises:',
 #     paises_cons)#,help='Si la lista está vacia mostrará un top 10 paises que mas consumen energias contaminantes.')
 
+
 multi_dfprod=data_cons.set_index('pais_iso')
 multi_dfprod=multi_dfprod.loc[multi_pais]
 with cont[1]:
@@ -111,26 +79,10 @@ with cont[1]:
     else:
         fig2, produccion_table = multi_dfprod.reset_index().fig_and_table()
     fig2.update_layout(
-                        title='Produccion de energias contaminantes por pais',
-                        height=400,
-                        width=600,
-                        margin={'l': 10, 'r': 10, 't': 30, 'b': 10},
-                        xaxis=dict(automargin= True,
-                                    tickangle= 45,
-                                    title=dict(
-                                    # text="Month",
-                                    standoff= 20))
-                        ,yaxis=dict(automargin= True,
-                                tickangle= 0,
-                                title=dict(
-                                # text= "Temprature",
-                                standoff= 20)),
-                        legend=dict(
-                          yanchor="top",
-                          y=0.99,
-                          xanchor="left",
-                          x=0.90))
-    st.plotly_chart(fig2)
+                        title='Produccion de energias contaminantes por pais'
+                       ) #   x=0.90)
+    st.plotly_chart(fig2,use_container_width=True)
+
 
 data_pct_produccion = data_produccion.get_pct_change(2010, 2019)
 df2=multi_dfprod.reset_index().get_pct_change(2010, 2019)
@@ -140,30 +92,12 @@ with pct[1]:
     else:
         fig3 = pct_plot(df2)
     fig3.update_layout(
-                title='Cambio porcentual desde 2010 en la produccion de energias contaminantes',
-                height=400,
-                width=600,
-                margin={'l': 10, 'r': 10, 't': 30, 'b': 10},
-                xaxis=dict(automargin= True,
-                        tickangle= 45,
-                        title=dict(
-                        # text="Month",
-                        standoff= 20))
-                ,yaxis=dict(automargin= True,
-                    tickangle= 0,
-                    title=dict(
-                    # text= "Temprature",
-                    standoff= 20)),
-                legend=dict(
-                yanchor="top",
-                y=0.99,
-                xanchor="left",
-                x=0.90))
+        title='Cambio porcentual desde 2010 en la produccion de energias contaminante'
+            )
 
-    st.plotly_chart(fig3)
+    st.plotly_chart(fig3,use_container_width=True)
 
 
 # fig = pct_plot(data_pct_produccion)
 # fig.update_layout(
 #     title='Cambio porcentual en la produccion de energias contaminantes por pais desde 2010')
-
