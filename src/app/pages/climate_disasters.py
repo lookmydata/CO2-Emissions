@@ -21,7 +21,6 @@ with cont:
     selecpais=st.sidebar.selectbox('seleccionar pais',paises)
 
 
-
 with col1:
     year = st.sidebar.slider('Select year',min(df.anio),max(df.anio))
 
