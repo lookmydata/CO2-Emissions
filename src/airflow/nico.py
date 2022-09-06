@@ -1,5 +1,5 @@
 from airflow import DAG
-from airflow.operators import python_operator
+from airflow.operators.python_operator import PythonOperator
 from default import DEFAULT_ARGS
 from src.etl.transform import T_consumo_energia
 from src.etl.transform import T_desastres_naturales
@@ -45,5 +45,25 @@ with DAG(
     default_args=DEFAULT_ARGS,
     description='Main ETL of CO2-Emissions project',
     schedule_interval='0 0 20 * *',
-):
+) as dag:
+    for obj in ENTITIES:
+        id = obj['id']
+        extract = PythonOperator(
+            task_id=f'extract_{id}',
+            python_callable=obj['extract'],
+            op_kwargs=obj
+        )
 
+        transform = PythonOperator(
+            task_id=f'transform_{id}',
+            python_callable=obj['transform'],
+            op_kwargs=obj
+        )
+
+        load = PythonOperator(
+            task_id=f'load_{id}',
+            python_callable=obj['load'],
+            op_kwargs=obj
+        )
+
+        extract >> transform >> load
