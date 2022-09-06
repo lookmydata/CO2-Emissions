@@ -2,6 +2,8 @@ import streamlit as st
 from PIL import Image
 import base64
 
+st.set_page_config(layout='centered')
+
 @st.cache
 def load_image(path):
     with open(path, 'rb') as f:
@@ -27,6 +29,6 @@ st.write(background_image_style(image_path), unsafe_allow_html=True)
 
 
 
-# st.set_page_config('centered')
+
 # image=Image.open('utils/INFORME_Presentación_Look_My_Data_week_3.jpg')
 # st.image(image)
