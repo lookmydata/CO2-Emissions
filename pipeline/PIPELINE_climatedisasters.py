@@ -32,10 +32,11 @@ def transform_cd():
             df.rename(columns={column:nom},inplace=True)
 
     df['indicador'] = df['indicador'].apply(lambda x: x.split(': ')[1])
+    df['pais'] = df['pais'].apply(lambda x: x.split(', ')[0])
 
     cols=['pais','pais_iso','indicador']
     df1=pd.melt(df,id_vars=cols,var_name='anio',value_name='frecuencia')
     df1["frecuencia"] = df1.frecuencia.replace(np.nan, 0)
-
-    return df1
+    
     # df1.to_csv('datasets/desastres_naturales/Climate-related_Disasters_Frequency_normalizado.csv',sep=';',index=False)
+    return df1
