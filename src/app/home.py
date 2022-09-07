@@ -2,6 +2,11 @@ import streamlit as st
 from PIL import Image
 import base64
 
+<<<<<<< HEAD
+=======
+st.set_page_config(layout='wide')
+
+>>>>>>> 14a8e76 (streamlit)
 @st.cache
 def load_image(path):
     with open(path, 'rb') as f:
@@ -21,7 +26,7 @@ def background_image_style(path):
     '''
     return style
 
-image_path = 'src/app/utils/INFORME_Presentación_Look_My_Data_week_3.jpg'
+image_path = 'src/app/utils/images/INFORME_Presentación_Look_My_Data_week_3.jpg'
 
 st.write(background_image_style(image_path), unsafe_allow_html=True)
 
