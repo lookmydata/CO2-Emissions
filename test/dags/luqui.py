@@ -58,10 +58,10 @@ with DAG(
             ext = PythonOperator(task_id='extraer',python_callable=(i['extract'][0](),i['extract'][1]()), dag=dag)
             trans = PythonOperator(tasks_id=i['transform'],python_callable=i['transform'](i['extract'][0](),i['extract'][1]()))
             carga = PythonOperator(task_id='load',python_callable=i['load'](i['transform'](i['extract'][0](),i['extract'][1]()).to_delta('load_', i['id'])), dag=dag)
-        
-        ext = PythonOperator(task_id='extraer',python_callable=i['extract'], dag=dag)
-        trans = PythonOperator(task_id='transform',python_callable=i['transform'], dag=dag)
-        carga = PythonOperator(task_id='load',python_callable=i['load'](i['transform'](i['extract']()).to_delta('load_', i['id'])), dag=dag)
+        else:
+            ext = PythonOperator(task_id='extraer',python_callable=i['extract'], dag=dag)
+            trans = PythonOperator(task_id='transform',python_callable=i['transform'], dag=dag)
+            carga = PythonOperator(task_id='load',python_callable=i['load'](i['transform'](i['extract']()).to_delta('load_', i['id'])), dag=dag)
         
         ext >> trans >> carga
         
