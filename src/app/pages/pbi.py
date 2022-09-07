@@ -9,8 +9,10 @@ from plotly.subplots import make_subplots
 def read(csv):
     return pd.read_csv(csv)
 
-df19=read('utils/df19.csv')
-df_pbi=read('utils/dfpbi.csv')
+
+
+df19=read('src/app/utils/df19.csv')
+df_pbi=read('src/app/utils/dfpbi.csv')
 
 con1=st.container()
 col=st.columns(2,gap='medium')
@@ -40,3 +42,4 @@ with cont:
         barmode='stack' )
 
     st.plotly_chart(fig,use_container_width=True)
+    st.write(df19)

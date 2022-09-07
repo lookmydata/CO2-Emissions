@@ -9,40 +9,57 @@ import streamlit as st
 def read(csv):
     return pd.read_csv(csv,sep=';')
 
+def listcol(dfcol):
+    dfcol=dfcol.unique()
+    return dfcol.tolist()
+
 df=read('datasets/desastres_naturales/Climate-related_Disasters_Frequency_normalizado.csv')
 
 cont=st.container()
 col=st.container()  #(2,gap='medium')
 col1=st.container()
 
-paises=df.pais_iso.unique()
-paises=paises.tolist()
+paises=listcol(df.pais_iso)
+indicadores=listcol(df.indicador)
+t=indicadores[5]
+indicadores.remove(t)
+indicadores.insert(0,t)
+
+
 with cont:
-    selecpais=st.sidebar.selectbox('seleccionar pais',paises)
-
-
-with col1:
+    selecpais = st.sidebar.multiselect('seleccionar pais',paises)
     year = st.sidebar.slider('Select year',min(df.anio),max(df.anio))
+    ind = st.sidebar.selectbox('seleccionar tipo de desastre',indicadores)
 
-    df2=df[(df['anio']==year)&(df.indicador=='TOTAL')&(df.pais_iso==selecpais)]
-
-    fig = px.choropleth(df2, locations="pais_iso",
-                        color='frecuencia',
-                        hover_name="pais",
-                        range_color=(min(df.frecuencia),max(df.frecuencia)),
-                        color_continuous_scale=px.colors.sequential.Reds)
+    df2=df[(df.pais_iso.isin(selecpais))&(df['anio']==year)&(df.indicador==ind)]
+    df1=df[(df['anio']==year)&(df.indicador==ind)]
+    if len(selecpais)==0:
+        fig = px.choropleth(df1, locations="pais_iso",
+                            color='frecuencia',
+                            hover_name="pais",
+                            hover_data=['indicador'],
+                            range_color=(min(df1.frecuencia),max(df1.frecuencia)),
+                            color_continuous_scale=px.colors.sequential.Reds)
+    else:
+        fig = px.choropleth(df2, locations="pais_iso",
+                            color='frecuencia',
+                            hover_name="pais",
+                            hover_data=['indicador'],
+                            range_color=(min(df2.frecuencia),max(df2.frecuencia)),
+                            color_continuous_scale=px.colors.sequential.Reds)
+                            
     st.plotly_chart(fig, use_container_width=True)
 
 
 
 
 
-df_drought=df.loc[(df.pais_iso==selecpais)&(df.indicador=='Drought')]
-df_ET=df[(df.pais_iso==selecpais)&(df.indicador=='Extreme Temperature')]
-df_flood=df[(df.pais_iso==selecpais)&(df.indicador=='Flood')]
-df_LS=df[(df.pais_iso==selecpais)&(df.indicador=='Landslide')]
-df_storm=df[(df.pais_iso==selecpais)&(df.indicador=='Storm')]
-df_WF=df[(df.pais_iso==selecpais)&(df.indicador=='Wildfire')]
+# df_drought=df.loc[(df.pais_iso==selecpais)&(df.indicador=='Drought')]
+# df_ET=df[(df.pais_iso==selecpais)&(df.indicador=='Extreme Temperature')]
+# df_flood=df[(df.pais_iso==selecpais)&(df.indicador=='Flood')]
+# df_LS=df[(df.pais_iso==selecpais)&(df.indicador=='Landslide')]
+# df_storm=df[(df.pais_iso==selecpais)&(df.indicador=='Storm')]
+# df_WF=df[(df.pais_iso==selecpais)&(df.indicador=='Wildfire')]
 
 # with col:   #[0]
 #     fig=make_subplots()
