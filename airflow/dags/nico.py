@@ -41,7 +41,7 @@ ENTITIES = [
 
 
 with DAG(
-    'extract',
+    'ETL',
     default_args=DEFAULT_ARGS,
     description='Main ETL of CO2-Emissions project',
     schedule_interval='0 0 20 * *',
