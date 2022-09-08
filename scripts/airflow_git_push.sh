@@ -1,5 +1,5 @@
 git checkout dev
-git datasets/normalized_delta/*
+git add datasets/normalized_delta/*
 git commit -m ".: AIRFLOW UPDATE $(date +'%d-%m-%Y') :."
 git push origin dev
 git add src/api/v2/*
