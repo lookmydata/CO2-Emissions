@@ -15,7 +15,10 @@ url_climateDisasters = "https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/res
 
 class Extract:
 
-    def plantas_energia(self, csv=None):
+    def __init__(self) -> None:
+        pass
+
+    def plantas_energia(self, csv=True):
         """
         Descarga el csv de powerPlantsData
 
@@ -57,7 +60,7 @@ class Extract:
                        zobj.extract(file_name, Path(path).parent)
 
 
-    def energiaco2(self, url, folder, csv=None):
+    def energiaco2(self, url=None, folder=None, csv=True):
         """
         url: str - url que contiene el link de descarga
         folder: str - carpeta del sistema de archivos donde se guardará el csv del dataset
@@ -77,9 +80,11 @@ class Extract:
         wget.download(link, out=folder)
         
 
-    def desastres_naturales(self, url, csv):
+    def desastres_naturales(self, url=None, csv=True):
         if csv:
-            return pd.read_csv('datasets/desastres_naturales/Climate-related_Disasters_Frequency.csv')
+            return pd.read_csv(
+                'datasets/desastres_naturales/Climate-related_Disasters_Frequency.csv'
+            ).to_json()
 
         self.url = url
         response = requests.get(url).json()

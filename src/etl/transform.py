@@ -1,7 +1,8 @@
 import pandas as pd
 import numpy as np
+from pyarrow import TransformInputStream
 
-from common import STANDARD_COLUMNS
+from src.etl.common import STANDARD_COLUMNS
 from pipeline.PIPELINE_renewableenergy import gtf_transform
 from pipeline.PIPELINE_powerplant import pp_transform
 from pipeline.norm_enfermedades import NormEnfermedades
@@ -156,16 +157,11 @@ class Transform(pd.DataFrame):
         return data
 
 
-    def _json_to_df(self) -> pd.DataFrame:
-        data = self.copy()
-        return pd.read_json(data)
-
-
     @classmethod
     def desastres_naturales(cls, data):
+        data = pd.read_json(data)
         return (
             cls(data)
-            ._json_to_df()
             .drop(columns=["ObjectId", "ISO2", "Code", "Unit"])
             .melt(
                 id_vars=["Country", "ISO3", "Indicator", "Source"],
@@ -192,9 +188,9 @@ class Transform(pd.DataFrame):
 
     @classmethod
     def energiaco2(cls, data):
+        data = pd.read_json(data)
         return (
             cls(data)
-            ._json_to_df()
             .drop(columns="Unnamed: 0")
             .rename_columns()
             .round(2)
@@ -203,9 +199,9 @@ class Transform(pd.DataFrame):
     
     @classmethod
     def consumo_energia(cls, data):
+        data = pd.read_json(data)
         return (
             cls(data)
-            ._json_to_df()
             .drop([
                     c
                     for c in data.columns
@@ -231,9 +227,9 @@ class Transform(pd.DataFrame):
 
     @classmethod
     def energia_estadistica_mensual(cls, data):
+        data = pd.read_json(data)
         return (
             cls(data)
-            ._json_to_df()
             .rename_columns()
             .dropna(subset="valor")
             .to_datetime("periodo")
@@ -259,53 +255,17 @@ class Transform(pd.DataFrame):
 
     @classmethod
     def cancer_male(cls, data):
-        return NormEnfermedades().transform(data, sex='M')
+        data = pd.read_json(data)
+        return NormEnfermedades().transform(data, sex='M').to_json()
 
 
     @classmethod
     def cancer_female(cls, data):
-        return NormEnfermedades().transform(data, sex='F')
+        data = pd.read_json(data)
+        return NormEnfermedades().transform(data, sex='F').to_json()
 
 
     @classmethod
     def lung_cancer(cls, *args):
-        return pd.merge(*args, how='outer', on=['pais','anio'])
-
-
-# -----------------------------------------------------------------------------------------
-
-
-# TRANSFORMACION FERCHO -- REALIZADO
-
-# REALIZADO
-
-
-# df = pd.read_csv(
-#     '../../datasets/desastres_naturales/Climate-related_Disasters_Frequency.csv'
-# )
-# data = T_desastres_naturales(df)
-# print(data)
-
-
-# REALIZADO
-
-# df = pd.read_csv("../../datasets/energyco2.csv")
-# data = T_energyco2(df)
-# print(data.columns)
-
-
-# REALIZADO
-
-
-# dataset = pd.read_csv(
-#     "../../datasets/energy_consumption/owid-energy-consumption-source.csv"
-# )
-# data = T_consumo_energia(dataset)
-# print(data)
-
-
-# REALIZADO
-
-# dataset = pd.read_csv("../../datasets/energia_estadistica_mensual/MES_0522.csv")
-# data = T_energia_estadistica_mensual(dataset)
-# print(data)
+        data = [pd.read_json(a) for a in args]
+        return pd.merge(*data, how='outer', on=['pais','anio']).to_json()

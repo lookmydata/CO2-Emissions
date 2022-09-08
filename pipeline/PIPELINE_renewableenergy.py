@@ -8,13 +8,13 @@ class tools():
     def listar(object):
         return object.to_list()
 
-t=tools()
+t = tools()
 
 def gtf_extract(dataframe):
     return t.readparquet(dataframe).copy()
 
 def gtf_transform(dataframe):
-    copy=gtf_extract(dataframe)
+    copy = dataframe.copy()
     dict_cols = {
         "Series Code": "codigo_info",
         "Country Name": "pais",
