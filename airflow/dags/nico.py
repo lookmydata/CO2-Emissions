@@ -13,6 +13,7 @@ from pipeline.norm_enfermedades import NormEnfermedades
 
 # Load Class
 from src.etl.load_delta import Loader
+from src.etl.load_json_api import JsonAPI
 
 
 ENTITIES = [ 
@@ -20,49 +21,57 @@ ENTITIES = [
         'id': 'desastres_naturales',
         'extract': Extract,
         'transform': Transform,
-        'load': Loader
+        'load': Loader,
+        'api': JsonAPI,
     },
     {
         'id': 'consumo_energia',
         'extract': Extract,
         'transform': Transform,
-        'load': Loader
+        'load': Loader,
+        'api': JsonAPI,
     },
     {
         'id': 'energia_estadistica_mensual',
         'extract': Extract,
         'transform': Transform,
-        'load': Loader
+        'load': Loader,
+        'api': JsonAPI,
     },
     {
         'id': 'energiaco2',
         'extract': Extract,
         'transform': Transform,
-        'load': Loader
+        'load': Loader,
+        'api': JsonAPI,
     },
     {
         'id': 'energia_renovable',
         'extract': Extract,
         'transform': Transform,
-        'load': Loader
+        'load': Loader,
+        'api': JsonAPI,
     },
     {
         'id': 'plantas_energia',
         'extract': Extract,
         'transform': Transform,
-        'load': Loader
+        'load': Loader,
+        'api': JsonAPI,
     },
     {
         'id': 'cancer_male',
         'extract': Extract,
         'transform': Transform,
         'load': Loader,
+        'api': JsonAPI,
     },
     {
         'id': 'cancer_female',
         'extract': Extract,
         'transform': Transform,
         'load': Loader,
+        'api': JsonAPI,
     },
 ] 
 
@@ -78,13 +87,11 @@ with DAG(
         return getattr(kwargs['extract'](), kwargs['id'])()
         
 
-    
     def transform_xcom(**kwargs):
         ti = kwargs['ti']
         data = ti.xcom_pull(task_ids=f"extract_{kwargs['id']}")
         return getattr(kwargs['transform'](), kwargs['id'])(data)
         
-
 
     def load_xcom(**kwargs) -> None:
         ti = kwargs['ti']
@@ -92,6 +99,17 @@ with DAG(
             task_ids='merging_lung_cancer'
         else:
             task_ids=f"transform_{kwargs['id']}"
+        data = ti.xcom_pull(task_ids=task_ids)
+        kwargs['load'](data).to_delta(kwargs['id'])
+
+
+    def load_api(**kwargs) -> None:
+        ti = kwargs['ti']
+        if kwargs['id'] == 'lung_cancer':
+            task_ids='merging_lung_cancer'
+        else:
+            task_ids=f"transform_{kwargs['id']}"
+
         data = ti.xcom_pull(task_ids=task_ids)
         kwargs['load'](data).to_delta(kwargs['id'])
 
@@ -129,18 +147,31 @@ with DAG(
         if id == 'cancer_male' or id == 'cancer_female':
             cancer['extract'].append(extract)
             cancer['transform'].append(transform)
+
         else:
             load = PythonOperator(
-                task_id=f'load_{id}',
+                task_id=f'load_S3_{id}',
                 python_callable=load_xcom,
                 op_kwargs=obj
             )
-            extract >> transform >> load
 
+            api = PythonOperator(
+                task_id=f'load_API_{id}',
+                python_callable=load_api,
+                op_kwargs=obj
+            )
+            extract >> transform >> [load, api]
+            
 
     load_cancer = PythonOperator(
-        task_id=f'load_lung_cancer',
+        task_id=f'load_S3_lung_cancer',
         python_callable=load_xcom,
+        op_kwargs=cancer
+    )
+
+    api_cancer = PythonOperator(
+        task_id=f'load_API_lung_cancer',
+        python_callable=load_api,
         op_kwargs=cancer
     )
 
@@ -150,7 +181,7 @@ with DAG(
         provide_context=True,
     )
 
-    cancer['extract'][0] >> cancer['transform'][0] >> merge_cancer >> load_cancer
-    cancer['extract'][1] >> cancer['transform'][1] >> merge_cancer >> load_cancer
+    cancer['extract'][0] >> cancer['transform'][0] >> merge_cancer >> [load_cancer, api_cancer]
+    cancer['extract'][1] >> cancer['transform'][1] >> merge_cancer >> [load_cancer, api_cancer]
     
         
