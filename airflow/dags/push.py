@@ -5,16 +5,17 @@ from default import DEFAULT_ARGS
  
 
 with DAG(
-    'Push to git',
-    default_args=DEFAULT_ARGS
+    'Push_to_git',
+    default_args=DEFAULT_ARGS,
 ) as dag:
 
     ETL_dag_success = ExternalTaskSensor(
         task_id="downstream_task1",
         external_dag_id='ETL',
         external_task_id=None,
-        allowed_states=['success'],
-        failed_states=['failed', 'skipped']
+        mode='reschedule'
+        # allowed_states=['success'],
+        # failed_states=['failed', 'skipped']
     )
 
     git_push = BashOperator(
