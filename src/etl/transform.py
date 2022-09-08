@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+from pyarrow import TransformInputStream
 
 from src.etl.common import STANDARD_COLUMNS
 from pipeline.PIPELINE_renewableenergy import gtf_transform
@@ -254,14 +255,14 @@ class Transform(pd.DataFrame):
 
     @classmethod
     def cancer_male(cls, data):
-        df = pd.read_json(data)
-        return NormEnfermedades().transform(df, sex='M')
+        data = pd.read_json(data)
+        return NormEnfermedades().transform(data, sex='M')
 
 
     @classmethod
     def cancer_female(cls, data):
-        df = pd.read_json(data)
-        return NormEnfermedades().transform(df, sex='F')
+        data = pd.read_json(data)
+        return NormEnfermedades().transform(data, sex='F')
 
 
     @classmethod
