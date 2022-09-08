@@ -1,5 +1,5 @@
 import pandas as pd
-from PIPELINE_renewableenergy import tools
+from pipeline.PIPELINE_renewableenergy import tools
 
 t=tools()
 
@@ -8,8 +8,8 @@ def pp_extract():
         "datasets/global_power_plant_database.csv"
     ).copy()
 
-def pp_transform():
-    df=pp_extract()
+def pp_transform(data):
+    df = data
     dict_cols = {
         "country_long": "pais",
         "country": "codigo_iso",

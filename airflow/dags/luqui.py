@@ -1,15 +1,12 @@
 from airflow import DAG 
 from default import DEFAULT_ARGS
-from pipeline.norm_enfermedades import norm_enfermedades, getdatamale, getdatafemale
+from pipeline.norm_enfermedades import NormEnfermedades, getdatamale, getdatafemale
 from pipeline.PIPELINE_renewableenergy import gtf_extract, gtf_transform
 from pipeline.PIPELINE_powerplant import pp_extract, pp_transform
 from pipeline.PIPELINE_climatedisasters import extract_cd, transform_cd
-
-
 from src.etl.load_delta import Loader
-
 from airflow.operators.python import PythonOperator
-from airflow.utils.dates import days_ago
+# from airflow.utils.dates import days_ago
 
 def ejecucion_func():
     norm_enfermedades(getdatamale(),getdatafemale())
@@ -17,11 +14,12 @@ def ejecucion_func():
 def load():
     Loader(ejecucion_func()).to_delta('tabla_enfermedades')
 
+
 ENTITIES = [ 
     {
         'id': 'enfermedades',
-        'extract': [getdatamale,getdatamale],
-        'transform': norm_enfermedades,
+        'extract': getdatamale,
+        'transform': NormEnfermedades,
         'load': Loader
     },
     {
@@ -45,6 +43,8 @@ ENTITIES = [
     
 ] 
 
+
+
 with DAG(
     'dag',
     default_args=DEFAULT_ARGS,
@@ -54,10 +54,10 @@ with DAG(
 ) as dag:
     for i in ENTITIES:
         Id = i['id']
-        if len(i['extract']) == 2:
-            ext = PythonOperator(task_id='extraer',python_callable=(i['extract'][0](),i['extract'][1]()), dag=dag)
-            trans = PythonOperator(tasks=i['transform'],python_callable=i['transform'](i['extract'][0](),i['extract'][1]()))
-            carga = PythonOperator(task_id='load',python_callable=i['load'](i['transform'](i['extract'][0](),i['extract'][1]()).to_delta('load_', i['id'])), dag=dag)
+
+    def T_enfermedades(dfm, dff):
+        id = ENTITIES[0]
+        f_data = 
         
         ext = PythonOperator(task_id='extraer',python_callable=i['extract'], dag=dag)
         trans = PythonOperator(task_id='transform',python_callable=i['transform'], dag=dag)
