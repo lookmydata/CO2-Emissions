@@ -147,5 +147,6 @@ with DAG(
         provide_context=True,
     )
 
-    cancer['extract'] >> cancer['transform'] >> merge_cancer >> load_cancer
+    cancer['extract'][0] >> cancer['transform'][0] >> merge_cancer >> load_cancer
+    cancer['extract'][1] >> cancer['transform'][1] >> merge_cancer >> load_cancer
         
