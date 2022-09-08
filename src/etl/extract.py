@@ -15,6 +15,9 @@ url_climateDisasters = "https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/res
 
 class Extract:
 
+    def __init__(self) -> None:
+        pass
+
     def plantas_energia(self, csv=True):
         """
         Descarga el csv de powerPlantsData
