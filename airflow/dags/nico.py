@@ -1,3 +1,5 @@
+import pandas as pd
+
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
 from default import DEFAULT_ARGS
@@ -46,23 +48,43 @@ with DAG(
     description='Main ETL of CO2-Emissions project',
     schedule_interval='0 0 20 * *',
 ) as dag:
+
+
+    def extract_to_json(**kwargs):
+        return kwargs['extract']().to_json()
+
+    
+    def transform_xcom(**kwargs):
+        ti = kwargs['ti']
+        json_df = ti.xcom_pull(task_id=f"extract_{kwargs['id']}")
+        return kwargs['transform'](pd.read_json(json_df)).to_json()
+
+
+    def load_xcom(**kwargs) -> None:
+        ti = kwargs['ti']
+        json_df = ti.xcom_pull(task_id=f"transform_{kwargs['id']}")
+        kwargs['load'](pd.read_json(json_df)).to_delta(kwargs['id'])
+
+
     for obj in ENTITIES:
         id = obj['id']
         extract = PythonOperator(
             task_id=f'extract_{id}',
-            python_callable=obj['extract'],
-            op_kwargs=obj
+            python_callable=extract_to_json,
+            op_kwargs=obj,
+            provide_context=True,
         )
 
         transform = PythonOperator(
             task_id=f'transform_{id}',
-            python_callable=obj['transform'],
-            op_kwargs=obj
+            python_callable=transform_xcom,
+            op_kwargs=obj,
+            provide_context=True,
         )
 
         load = PythonOperator(
             task_id=f'load_{id}',
-            python_callable=obj['load'],
+            python_callable=load_xcom,
             op_kwargs=obj
         )
 
