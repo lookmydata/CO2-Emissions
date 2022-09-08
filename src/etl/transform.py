@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-from common import STANDARD_COLUMNS
+from src.etl.common import STANDARD_COLUMNS
 from pipeline.PIPELINE_renewableenergy import gtf_transform
 from pipeline.PIPELINE_powerplant import pp_transform
 from pipeline.norm_enfermedades import NormEnfermedades
