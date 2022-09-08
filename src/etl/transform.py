@@ -254,53 +254,16 @@ class Transform(pd.DataFrame):
 
     @classmethod
     def cancer_male(cls, data):
+        data = pd.read_json(data)
         return NormEnfermedades().transform(data, sex='M')
 
 
     @classmethod
     def cancer_female(cls, data):
+        data = pd.read_json(data)
         return NormEnfermedades().transform(data, sex='F')
 
 
     @classmethod
     def lung_cancer(cls, *args):
         return pd.merge(*args, how='outer', on=['pais','anio'])
-
-
-# -----------------------------------------------------------------------------------------
-
-
-# TRANSFORMACION FERCHO -- REALIZADO
-
-# REALIZADO
-
-
-# df = pd.read_csv(
-#     '../../datasets/desastres_naturales/Climate-related_Disasters_Frequency.csv'
-# )
-# data = T_desastres_naturales(df)
-# print(data)
-
-
-# REALIZADO
-
-# df = pd.read_csv("../../datasets/energyco2.csv")
-# data = T_energyco2(df)
-# print(data.columns)
-
-
-# REALIZADO
-
-
-# dataset = pd.read_csv(
-#     "../../datasets/energy_consumption/owid-energy-consumption-source.csv"
-# )
-# data = T_consumo_energia(dataset)
-# print(data)
-
-
-# REALIZADO
-
-# dataset = pd.read_csv("../../datasets/energia_estadistica_mensual/MES_0522.csv")
-# data = T_energia_estadistica_mensual(dataset)
-# print(data)
