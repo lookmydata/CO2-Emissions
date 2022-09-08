@@ -2,6 +2,8 @@ import pandas as pd
 
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
+from airflow.operators.trigger_dagrun import TriggerDagRunOperator
+from airflow.utils.trigger_rule import TriggerRule
 from default import DEFAULT_ARGS
 
 # Extract Class
@@ -82,6 +84,11 @@ with DAG(
     description='Main ETL of CO2-Emissions project',
 ) as dag:
 
+    git_push = BashOperator(
+        task_id='git_push',
+        bash_command="scripts/airflow_git_push.sh",
+        trigger_rule="all_success",
+    )
 
     def extract_to_json(**kwargs):
         return getattr(kwargs['extract'](), kwargs['id'])()
@@ -160,8 +167,9 @@ with DAG(
                 python_callable=load_api,
                 op_kwargs=obj
             )
-            extract >> transform >> [load, api]
+            extract >> transform >> [load, api] >> git_push
             
+    
 
     load_cancer = PythonOperator(
         task_id=f'load_S3_lung_cancer',
@@ -181,7 +189,5 @@ with DAG(
         provide_context=True,
     )
 
-    cancer['extract'][0] >> cancer['transform'][0] >> merge_cancer >> [load_cancer, api_cancer]
-    cancer['extract'][1] >> cancer['transform'][1] >> merge_cancer >> [load_cancer, api_cancer]
-    
-        
+    cancer['extract'][0] >> cancer['transform'][0] >> merge_cancer >> [load_cancer, api_cancer] >> git_push
+    cancer['extract'][1] >> cancer['transform'][1] >> merge_cancer >> [load_cancer, api_cancer] >> git_push
