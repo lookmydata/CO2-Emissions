@@ -41,18 +41,6 @@ ENTITIES = [
         'load': Loader
     },
     {
-        'id': 'cancer_male',
-        'extract': Extract,
-        'transform': NormEnfermedades,
-        'load': Loader
-    },
-    {
-        'id': 'cancer_female',
-        'extract': Extract,
-        'transform': NormEnfermedades,
-        'load': Loader
-    },
-    {
         'id': 'energia_renovable',
         'extract': Extract,
         'transform': Transform,
@@ -63,6 +51,18 @@ ENTITIES = [
         'extract': Extract,
         'transform': Transform,
         'load': Loader
+    },
+    {
+        'id': 'cancer_male',
+        'extract': Extract,
+        'transform': Transform,
+        'load': Loader,
+    },
+    {
+        'id': 'cancer_female',
+        'extract': Extract,
+        'transform': Transform,
+        'load': Loader,
     },
 ] 
 
@@ -91,11 +91,18 @@ with DAG(
 
 
     # Buscar como se traen dos datos (json) con xcom
-    def fusion(**kwargs):
+    def merging_cancer(**kwargs):
         ti = kwargs['ti']
-        data = ti.xcom_pull(task_ids=f"extract_cancer_male")
-        return eval(f"{kwargs['transform']}.cancer_male")(data)
+        data = ti.xcom_pull(task_ids=["extract_cancer_male", "extract_cancer_male"])
+        return Transform().lung_cancer(*data)
 
+
+    cancer = {
+        'id': 'lung_cancer',
+        'extract': [],
+        'transform': [],
+        'load': Loader
+    }
 
     for obj in ENTITIES:
         id = obj['id']
@@ -120,15 +127,25 @@ with DAG(
             op_kwargs=obj
         )
 
-        if id == 'cancer_male':
-            extact_male = extract
-
-        elif id == 'cancer_female':
-            extact_female = extract
-            transform_female = transform
+        if id == 'cancer_male' or id == 'cancer_female':
+            cancer['extract'].append(extract)
+            cancer['transform'].append(transform)
 
         else:
             extract >> transform >> load
 
-    else:
-        extract[]
+
+    load_cancer = PythonOperator(
+        task_id=f'load_lung_cancer',
+        python_callable=load_xcom,
+        op_kwargs=cancer
+    )
+
+    merge_cancer = PythonOperator(
+        task_id=f'merging_lung_cancer',
+        python_callable=merging_cancer,
+        provide_context=True,
+    )
+
+    cancer['extract'] >> cancer['transform'] >> merge_cancer >> load_cancer
+        
