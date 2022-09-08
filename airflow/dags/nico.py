@@ -75,13 +75,13 @@ with DAG(
 
 
     def extract_to_json(**kwargs):
-        return kwargs['extract'].eval(f"{kwargs['id']}")()
+        return getattr(kwargs['extract'](), kwargs['id'])()
 
     
     def transform_xcom(**kwargs):
         ti = kwargs['ti']
         data = ti.xcom_pull(task_ids=f"extract_{kwargs['id']}")
-        return kwargs["transform"].eval(f"{kwargs['id']}")(data)
+        return getattr(kwargs['transform'](), kwargs['id'])(data)
 
 
     def load_xcom(**kwargs) -> None:
@@ -130,6 +130,7 @@ with DAG(
         if id == 'cancer_male' or id == 'cancer_female':
             cancer['extract'].append(extract)
             cancer['transform'].append(transform)
+            load = None
 
         else:
             extract >> transform >> load
