@@ -254,14 +254,14 @@ class Transform(pd.DataFrame):
 
     @classmethod
     def cancer_male(cls, data):
-        data = pd.read_json(data)
-        return NormEnfermedades().transform(data, sex='M')
+        df = pd.read_json(data)
+        return NormEnfermedades().transform(df, sex='M')
 
 
     @classmethod
     def cancer_female(cls, data):
-        data = pd.read_json(data)
-        return NormEnfermedades().transform(data, sex='F')
+        df = pd.read_json(data)
+        return NormEnfermedades().transform(df, sex='F')
 
 
     @classmethod
