@@ -156,16 +156,11 @@ class Transform(pd.DataFrame):
         return data
 
 
-    def _json_to_df(self) -> pd.DataFrame:
-        data = self.copy()
-        return pd.read_json(data)
-
-
     @classmethod
     def desastres_naturales(cls, data):
+        data = pd.read_json(data)
         return (
             cls(data)
-            ._json_to_df()
             .drop(columns=["ObjectId", "ISO2", "Code", "Unit"])
             .melt(
                 id_vars=["Country", "ISO3", "Indicator", "Source"],
@@ -192,9 +187,9 @@ class Transform(pd.DataFrame):
 
     @classmethod
     def energiaco2(cls, data):
+        data = pd.read_json(data)
         return (
             cls(data)
-            ._json_to_df()
             .drop(columns="Unnamed: 0")
             .rename_columns()
             .round(2)
@@ -203,9 +198,9 @@ class Transform(pd.DataFrame):
     
     @classmethod
     def consumo_energia(cls, data):
+        data = pd.read_json(data)
         return (
             cls(data)
-            ._json_to_df()
             .drop([
                     c
                     for c in data.columns
@@ -231,9 +226,9 @@ class Transform(pd.DataFrame):
 
     @classmethod
     def energia_estadistica_mensual(cls, data):
+        data = pd.read_json(data)
         return (
             cls(data)
-            ._json_to_df()
             .rename_columns()
             .dropna(subset="valor")
             .to_datetime("periodo")
