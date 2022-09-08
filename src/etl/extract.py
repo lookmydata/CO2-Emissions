@@ -82,7 +82,9 @@ class Extract:
 
     def desastres_naturales(self, url=None, csv=True):
         if csv:
-            return pd.read_csv('datasets/desastres_naturales/Climate-related_Disasters_Frequency.csv')
+            return pd.read_csv(
+                'datasets/desastres_naturales/Climate-related_Disasters_Frequency.csv'
+            ).to_json()
 
         self.url = url
         response = requests.get(url).json()
