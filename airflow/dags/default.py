@@ -10,7 +10,7 @@ DEFAULT_ARGS = dict(
     email_on_retry=False,
     depends_on_past=False,
     schedule_interval='0 0 20 * *',
-    start_date=dt(2022,9,6),
+    start_date=dt(2022,9,7),
     # retries=2,
     # retry_delay=timedelta(minutes=5),
 
