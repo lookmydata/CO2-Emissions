@@ -256,15 +256,16 @@ class Transform(pd.DataFrame):
     @classmethod
     def cancer_male(cls, data):
         data = pd.read_json(data)
-        return NormEnfermedades().transform(data, sex='M')
+        return NormEnfermedades().transform(data, sex='M').to_json()
 
 
     @classmethod
     def cancer_female(cls, data):
         data = pd.read_json(data)
-        return NormEnfermedades().transform(data, sex='F')
+        return NormEnfermedades().transform(data, sex='F').to_json()
 
 
     @classmethod
     def lung_cancer(cls, *args):
-        return pd.merge(*args, how='outer', on=['pais','anio'])
+        data = [pd.read_json(a) for a in args]
+        return pd.merge(*data, how='outer', on=['pais','anio']).to_json()

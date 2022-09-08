@@ -16,42 +16,42 @@ from src.etl.load_delta import Loader
 
 
 ENTITIES = [ 
-    {
-        'id': 'desastres_naturales',
-        'extract': Extract,
-        'transform': Transform,
-        'load': Loader
-    },
-    {
-        'id': 'consumo_energia',
-        'extract': Extract,
-        'transform': Transform,
-        'load': Loader
-    },
-    {
-        'id': 'energia_estadistica_mensual',
-        'extract': Extract,
-        'transform': Transform,
-        'load': Loader
-    },
-    {
-        'id': 'energiaco2',
-        'extract': Extract,
-        'transform': Transform,
-        'load': Loader
-    },
-    {
-        'id': 'energia_renovable',
-        'extract': Extract,
-        'transform': Transform,
-        'load': Loader
-    },
-    {
-        'id': 'plantas_energia',
-        'extract': Extract,
-        'transform': Transform,
-        'load': Loader
-    },
+    # {
+    #     'id': 'desastres_naturales',
+    #     'extract': Extract,
+    #     'transform': Transform,
+    #     'load': Loader
+    # },
+    # {
+    #     'id': 'consumo_energia',
+    #     'extract': Extract,
+    #     'transform': Transform,
+    #     'load': Loader
+    # },
+    # {
+    #     'id': 'energia_estadistica_mensual',
+    #     'extract': Extract,
+    #     'transform': Transform,
+    #     'load': Loader
+    # },
+    # {
+    #     'id': 'energiaco2',
+    #     'extract': Extract,
+    #     'transform': Transform,
+    #     'load': Loader
+    # },
+    # {
+    #     'id': 'energia_renovable',
+    #     'extract': Extract,
+    #     'transform': Transform,
+    #     'load': Loader
+    # },
+    # {
+    #     'id': 'plantas_energia',
+    #     'extract': Extract,
+    #     'transform': Transform,
+    #     'load': Loader
+    # },0
     {
         'id': 'cancer_male',
         'extract': Extract,
@@ -76,24 +76,30 @@ with DAG(
 
     def extract_to_json(**kwargs):
         return getattr(kwargs['extract'](), kwargs['id'])()
+        
 
     
     def transform_xcom(**kwargs):
         ti = kwargs['ti']
         data = ti.xcom_pull(task_ids=f"extract_{kwargs['id']}")
         return getattr(kwargs['transform'](), kwargs['id'])(data)
+        
 
 
     def load_xcom(**kwargs) -> None:
         ti = kwargs['ti']
-        data = ti.xcom_pull(task_ids=f"transform_{kwargs['id']}")
+        if kwargs['id'] == 'lung_cancer':
+            task_ids='merging_lung_cancer'
+        else:
+            task_ids=f"transform_{kwargs['id']}"
+        data = ti.xcom_pull(task_ids=task_ids)
         kwargs['load'](data).to_delta(kwargs['id'])
 
 
-    # Buscar como se traen dos datos (json) con xcom
+    #  Buscar como se traen dos datos (json) con xcom
     def merging_cancer(**kwargs):
         ti = kwargs['ti']
-        data = ti.xcom_pull(task_ids=["extract_cancer_male", "extract_cancer_male"])
+        data = ti.xcom_pull(task_ids=["transform_cancer_male", "transform_cancer_female"])
         return Transform().lung_cancer(*data)
 
 
@@ -106,7 +112,6 @@ with DAG(
 
     for obj in ENTITIES:
         id = obj['id']
-
         extract = PythonOperator(
             task_id=f'extract_{id}',
             python_callable=extract_to_json,
@@ -121,18 +126,22 @@ with DAG(
             provide_context=True,
         )
 
-        load = PythonOperator(
-            task_id=f'load_{id}',
-            python_callable=load_xcom,
-            op_kwargs=obj
-        )
+        # load = PythonOperator(
+        #     task_id=f'load_{id}',
+        #     python_callable=load_xcom,
+        #     op_kwargs=obj
+        # )
 
+        
         if id == 'cancer_male' or id == 'cancer_female':
             cancer['extract'].append(extract)
             cancer['transform'].append(transform)
-            load = None
-
         else:
+            load = PythonOperator(
+                task_id=f'load_{id}',
+                python_callable=load_xcom,
+                op_kwargs=obj
+            )
             extract >> transform >> load
 
 
@@ -150,4 +159,5 @@ with DAG(
 
     cancer['extract'][0] >> cancer['transform'][0] >> merge_cancer >> load_cancer
     cancer['extract'][1] >> cancer['transform'][1] >> merge_cancer >> load_cancer
+    
         
