@@ -16,42 +16,42 @@ from src.etl.load_delta import Loader
 
 
 ENTITIES = [ 
-    # {
-    #     'id': 'desastres_naturales',
-    #     'extract': Extract,
-    #     'transform': Transform,
-    #     'load': Loader
-    # },
-    # {
-    #     'id': 'consumo_energia',
-    #     'extract': Extract,
-    #     'transform': Transform,
-    #     'load': Loader
-    # },
-    # {
-    #     'id': 'energia_estadistica_mensual',
-    #     'extract': Extract,
-    #     'transform': Transform,
-    #     'load': Loader
-    # },
-    # {
-    #     'id': 'energiaco2',
-    #     'extract': Extract,
-    #     'transform': Transform,
-    #     'load': Loader
-    # },
-    # {
-    #     'id': 'energia_renovable',
-    #     'extract': Extract,
-    #     'transform': Transform,
-    #     'load': Loader
-    # },
-    # {
-    #     'id': 'plantas_energia',
-    #     'extract': Extract,
-    #     'transform': Transform,
-    #     'load': Loader
-    # },0
+    {
+        'id': 'desastres_naturales',
+        'extract': Extract,
+        'transform': Transform,
+        'load': Loader
+    },
+    {
+        'id': 'consumo_energia',
+        'extract': Extract,
+        'transform': Transform,
+        'load': Loader
+    },
+    {
+        'id': 'energia_estadistica_mensual',
+        'extract': Extract,
+        'transform': Transform,
+        'load': Loader
+    },
+    {
+        'id': 'energiaco2',
+        'extract': Extract,
+        'transform': Transform,
+        'load': Loader
+    },
+    {
+        'id': 'energia_renovable',
+        'extract': Extract,
+        'transform': Transform,
+        'load': Loader
+    },
+    {
+        'id': 'plantas_energia',
+        'extract': Extract,
+        'transform': Transform,
+        'load': Loader
+    },
     {
         'id': 'cancer_male',
         'extract': Extract,
@@ -125,13 +125,6 @@ with DAG(
             op_kwargs=obj,
             provide_context=True,
         )
-
-        # load = PythonOperator(
-        #     task_id=f'load_{id}',
-        #     python_callable=load_xcom,
-        #     op_kwargs=obj
-        # )
-
         
         if id == 'cancer_male' or id == 'cancer_female':
             cancer['extract'].append(extract)
