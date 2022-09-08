@@ -25,7 +25,12 @@ El impacto ambiental afecta directa e indirectamente a las personas y una posibl
 
 ### KPI’s y métricas
 
-- Productores de energías limpias 
+- Reducción al 45% de las emisiones de Dióxido de carbono para 2030
+- Reducción al 95% del uso de carbón para 2030
+- Reducción al 45% del uso de gas para 2050
+- Reducción al 60% del uso de petroleo para 2050
+
+- Productores de enegías limpias 
 - Calidad del aire 
 - Evolución histórica de generación de energía y emisión de CO2  en top 10 países emisores de CO2 
 - Evolución del índice de calidad de aire (AQI) en relación al nivel de emisión de CO2  en los 10 países de mayor emisión
@@ -36,11 +41,20 @@ El impacto ambiental afecta directa e indirectamente a las personas y una posibl
 
 ## Metodología y Stack Tecnológico
 
-El desarrollo del proyecto consta de 4 etapas:
-1. Extracción, transformación y carga de datos
-2. Análisis, métricas y KPI’s
+1. Busqueda de datasets a trabajar y análisis exploratorio
+    Durante esta etapa el equipo se encargó de buscar los datasets necesarios y se analizaron cuales iban a ser los KPIs y métricas necesarias para llevar a cabo el desarrollo del producto.
+
+2. Limpieza y normalización de datos y automatización de los procesos
+    Con el uso de Python y librerías como Pandas y Numpy se realizaron los procesos de Extracción y Transformación de los datos, luego con Airflow se automatizaron los procesos para hacer la carga de los mismos dentro del servicios cloud de Amazon.
+
 3. Modelos y aprendizaje automático
+    Luego de preparar los datos con los procesos de ETL, se realizaron diferentes analisis elaborando métricas 
+
 4. Reporte y conclusiones
+    Durante en esta última etapa el equipo estuvo encargado de ensamblar el producto, acá se pusieron los datos dentro de una API accesible, asimismo se diseñó el dashboard de Streamlit.
+
+
+
 
 ### Ingesta de datos y montaje de servicio de datos basado en la nube
 
