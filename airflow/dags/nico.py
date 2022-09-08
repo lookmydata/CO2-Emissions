@@ -75,13 +75,13 @@ with DAG(
 
 
     def extract_to_json(**kwargs):
-        return eval(f"{kwargs['extract']}.{kwargs['id']}")()
+        return kwargs['extract'].eval(f"{kwargs['id']}")()
 
     
     def transform_xcom(**kwargs):
         ti = kwargs['ti']
         data = ti.xcom_pull(task_ids=f"extract_{kwargs['id']}")
-        return eval(f"{kwargs['transform']}.{kwargs['id']}")(data)
+        return kwargs["transform"].eval(f"{kwargs['id']}")(data)
 
 
     def load_xcom(**kwargs) -> None:
