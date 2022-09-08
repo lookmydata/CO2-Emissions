@@ -1,8 +1,6 @@
 import os
 
 from deltalake.writer import write_deltalake
-from src.etl.transform import T_desastres_naturales
-from src.etl.extract_temporal import E_desastres_naturales
 
 class Loader:
 
@@ -20,8 +18,3 @@ class Loader:
             mode='overwrite', 
             # mode='append' # Descomentar si se quiere hacer un append del producto
         )
-
-extract_data = E_desastres_naturales()
-transform_data = T_desastres_naturales(extract_data)
-
-Loader(transform_data).to_delta('hola')
