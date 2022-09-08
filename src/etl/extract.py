@@ -15,7 +15,7 @@ url_climateDisasters = "https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/res
 
 class Extract:
 
-    def getPowerPlantsData(self):
+    def plantas_energia(self, csv=None):
         """
         Descarga el csv de powerPlantsData
 
@@ -33,6 +33,11 @@ class Extract:
         >>> data = loadData()
         >>> data.getp....(url=url)
         """
+        if csv:
+            return pd.read_csv(
+                'datasets/global_power_plant/global_power_plant_database.csv'
+            ).to_json()
+
         url = "https://datasets.wri.org/dataset/globalpowerplantdatabase"
         xpath = "/html/body/div[2]/div/div[2]/div/article/div/section/ul/li[1]/div/a"
 
@@ -52,12 +57,15 @@ class Extract:
                        zobj.extract(file_name, Path(path).parent)
 
 
-
-    def getEnergyData(self, url, folder):
+    def energiaco2(self, url, folder, csv=None):
         """
         url: str - url que contiene el link de descarga
         folder: str - carpeta del sistema de archivos donde se guardará el csv del dataset
         """
+
+        if csv:
+            return pd.read_csv('datasets/energyco2.csv').to_json()
+
         self.url = url
         self.folder = folder
         s = HTMLSession()
@@ -67,9 +75,12 @@ class Extract:
             if item.text == "CSV":
                 link = list(item.absolute_links)[0]
         wget.download(link, out=folder)
-        return
+        
 
-    def getClimateDisastersData(self, url):
+    def desastres_naturales(self, url, csv):
+        if csv:
+            return pd.read_csv('datasets/desastres_naturales/Climate-related_Disasters_Frequency.csv')
+
         self.url = url
         response = requests.get(url).json()
         df5 = pd.DataFrame()
@@ -80,3 +91,23 @@ class Extract:
             data = (df5, df)
             df5 = pd.concat(data)
         return df5
+
+
+    def consumo_energia(self):
+        return pd.read_csv('datasets/energy_consumption/owid-energy-consumption-source.csv').to_json()
+
+
+    def energia_estadistica_mensual(self):
+        return pd.read_csv('datasets/energia_estadistica_mensual/MES_0522.csv').to_json()
+
+
+    def cancer_female(self):
+        return pd.read_csv('datasets/enfermedades/lung_cancer_number_of_new_female_cases.csv').to_json()
+
+
+    def cancer_male(self):
+        return pd.read_csv('datasets/enfermedades/lung_cancer_number_of_new_male_cases.csv').to_json()
+
+
+    def energia_renovable(self):
+        return pd.read_csv('datasets/energias_renovables/gtfrenewableenergydata.csv').to_json()
