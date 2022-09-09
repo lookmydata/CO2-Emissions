@@ -8,7 +8,7 @@ RUN apt-get -y install git
 USER airflow
 
 ENV PYTHONPATH "/opt/airflow/code:/opt/airflow/code"
-COPY requirements.txt .
+COPY ../requirements.txt .
 
 RUN pip install --user -r requirements.txt
 
