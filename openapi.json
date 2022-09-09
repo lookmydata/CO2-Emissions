@@ -1,0 +1,63 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "FastAPI",
+        "version": "0.1.0"
+    },
+    "paths": {
+        "/CO2-Emissions/api": {
+            "get": {
+                "summary": "Api",
+                "operationId": "api_CO2_Emissions_api_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/CO2-Emissions/hola": {
+            "get": {
+                "summary": "Helloworld",
+                "operationId": "helloworld_CO2_Emissions_hola_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/CO2-Emissions/api/v2/consumo_energia.json": {
+            "get": {
+                "summary": "Api",
+                "operationId": "api_CO2_Emissions_api_v2_consumo_energia_json_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
