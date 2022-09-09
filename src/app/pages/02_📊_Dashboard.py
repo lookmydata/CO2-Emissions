@@ -32,7 +32,7 @@ data_produccion.rename(columns={'pais':'pais_iso'},inplace=True)
 
 #LAYOUT#
 kpis=st.columns(4,gap='medium')
-grafs=st.columns(3,gap='small')
+grafs=st.columns(3,gap='medium')
 
 #LIST#
 aa=listcol(df19.pais)

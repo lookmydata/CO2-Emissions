@@ -1,5 +1,6 @@
 import streamlit as st
 
+st.set_page_config(layout='centered')
 st.markdown("""
     ## Marco Teórico
     El dióxido de  carbono (CO2) es un gas perteneciente a la clase de gases llamados “de efecto invernadero” dada su capacidad de contribuir a la retención de calor en la atmósfera.

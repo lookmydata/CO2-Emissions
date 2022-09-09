@@ -32,7 +32,10 @@ selecpais = st.sidebar.multiselect('seleccionar uno o más paises',paises)
 year = st.sidebar.slider('elegir un año',min(df.anio),max(df.anio))
 ind = st.sidebar.selectbox('tipos de desastre',indicadores)
 with cont:
-    st.title('Frecuencia anual de desastres climáticos')
+    st.markdown("""
+    # Frecuencia anual de desastres climáticos
+    ### En el siguiente mapa se observa como aumentó la frecuencia de ciertos desastres naturales, estrechamente relacionado con el aumento de las emisiones de dióxido de carbono a lo largo de los años.
+    """)
     df2=df[(df.pais_iso.isin(selecpais))&(df['anio']==year)&(df.indicador==ind)]
     df1=df[(df['anio']==year)&(df.indicador==ind)]
     if len(selecpais)==0:
