@@ -1,7 +1,7 @@
 import json
 
 from fastapi.testclient import TestClient
-from src.api.main import API
+from main import API
 
 client = TestClient(API)
 with open('openapi.json', 'w') as file:
