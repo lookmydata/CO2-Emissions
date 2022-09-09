@@ -12,3 +12,8 @@ jobs:
     steps:
       - name: 'Test Airflow DAGs'
         uses: micael-grilo/airflow-dags-test-action@v2.2.2
+        with: 
+          requirements-file: airflow/requirements.txt
+          dags-path: airflow/dags
+          dags-test-folder: airflow/tests
+        # var-file: project/var.json
