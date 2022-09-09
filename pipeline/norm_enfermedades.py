@@ -3,11 +3,11 @@ from typing import Literal
 
 
 def getdatafemale():
-    return pd.read_csv("datasets/enfermedades/lung_cancer_number_of_new_female_cases.csv")
+    return pd.read_parquet("datasets/enfermedades/lung_cancer_number_of_new_female_cases.parquet")
 
 
 def getdatamale():
-    return pd.read_csv("datasets/enfermedades/lung_cancer_number_of_new_male_cases.csv")
+    return pd.read_parquet("datasets/enfermedades/lung_cancer_number_of_new_male_cases.parquet")
 
 
 class NormEnfermedades:

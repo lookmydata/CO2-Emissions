@@ -85,22 +85,27 @@ class BadEnergies(pd.DataFrame):
         ), data
     
     
-    def _get_year(self, year: int) -> pd.DataFrame:
+    def _get_year(self, year: int,top=10) -> pd.DataFrame:
         data = self.copy()
+        if top == None and top == 'all':
+            mask = list(data.pais_iso)
+        else:
+            mask=data._get_top(top)
         return (
             data
             .loc[data.anio == year]
             .set_index('pais_iso')
-            .loc[data._get_top(10)]
+            .loc[mask]
             .reset_index()
             .melt(id_vars=['pais_iso', 'anio'], value_name='valor', var_name='tipo_energia')
             .round(2)
         )
     
-    def get_pct_change(self, one: int, two: int):
-        data_one = self.copy()._get_year(one)
-        data_two = self.copy()._get_year(two) 
+    def get_pct_change(self, one: int, two: int,top=10):
+        data_one = self.copy()._get_year(one,top=top)
+        data_two = self.copy()._get_year(two,top=top) 
         data_pct = data_two.merge(data_one, on=['pais_iso', 'tipo_energia'])
+        data_pct.astype({'valor_x':'float','valor_y':'float'})
         data_pct['cambio_porcentual'] = (data_pct.valor_x - data_pct.valor_y) / data_pct.valor_y * 100
         return data_pct.round(2)
     

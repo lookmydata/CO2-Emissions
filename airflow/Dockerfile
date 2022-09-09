@@ -9,6 +9,7 @@ USER airflow
 ENV PYTHONPATH "/opt/airflow/code:/opt/airflow/code"
 COPY requirements.txt .
 
-RUN pip install --user -r requirements.txt
+RUN pip install --user -r requirements.txt &&\
+    apt-get install git
 
 COPY . .

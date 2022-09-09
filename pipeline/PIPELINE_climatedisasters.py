@@ -16,7 +16,7 @@ def nomCols(df, dic):
     return df
 
 def extract_cd():
-    return pd.read_csv('datasets/desastres_naturales/Climate-related_Disasters_Frequency.csv')
+    return pd.read_parquet('datasets/desastres_naturales/Climate-related_Disasters_Frequency.parquet')
 
 dic_cols = {'country':'pais','type':'tipo','year':'anio','consumption':'cons','production':'produccion','gdp':'pbi','population':'poblacion','intensity':'intensidad','emission':'emision_co2','indicator':'indicador','fuel':'combustible','wind':'eolica','electricity':'elec','energy':'energia','iso_code':'pais_iso','share':'participacion','renewable':'renovable','oil':'petroleo','change':'cambio','coal':'carbon','time':'periodo','product':'producto','value':'valor','unit':'unidad','iso3':'pais_iso','source':'fuente'}
 

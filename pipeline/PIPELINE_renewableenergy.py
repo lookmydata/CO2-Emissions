@@ -2,8 +2,8 @@ import pandas as pd
 
 class tools():
     @staticmethod
-    def readcsv(df):
-        return pd.read_csv(df)
+    def readparquet(df):
+        return pd.read_parquet(df)
     @staticmethod
     def listar(object):
         return object.to_list()
@@ -11,7 +11,7 @@ class tools():
 t = tools()
 
 def gtf_extract(dataframe):
-    return t.readcsv(dataframe).copy()
+    return t.readparquet(dataframe).copy()
 
 def gtf_transform(dataframe):
     copy = dataframe.copy()

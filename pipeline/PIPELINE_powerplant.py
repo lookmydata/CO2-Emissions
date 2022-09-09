@@ -4,8 +4,8 @@ from pipeline.PIPELINE_renewableenergy import tools
 t=tools()
 
 def pp_extract():
-    return t.readcsv(
-        "datasets/global_power_plant_database.csv"
+    return t.readparquet(
+        "datasets/global_power_plant_database.parquet"
     ).copy()
 
 def pp_transform(data):
