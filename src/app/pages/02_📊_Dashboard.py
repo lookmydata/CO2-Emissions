@@ -41,8 +41,8 @@ dfst=dfst[dfst.pais.isin(aa)]
 paises=aa
 
 #SIDEBAR#
-st.sidebar.markdown('### Se están mostrando resultados de:')
-selecpais=st.sidebar.selectbox(' ',options=paises)
+# st.sidebar.markdown('')
+selecpais=st.sidebar.selectbox('Se están mostrando resultados de:',options=paises)
 
 dfkpi=df19
 dfkpi=dfkpi[dfkpi.pais==selecpais]
