@@ -8,3 +8,4 @@ pip==22.2.2
 plotly==5.10.0
 requests-html==0.10.0
 delta==0.4.2
+jinja2==2.11.3
